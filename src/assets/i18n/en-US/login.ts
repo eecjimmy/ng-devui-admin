@@ -1,6 +1,5 @@
 export default {
   loginPage: {
-    coperation: 'DevUI Design Presented',
     loginWays: {
       account: 'Account Login',
       email: 'Email Login',

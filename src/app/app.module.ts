@@ -35,4 +35,5 @@ class I18NLoader implements TranslateLoader {
   providers: [],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule {
+}

@@ -6,12 +6,8 @@
   <div class='da-login-form'>
     <div class='da-login-logo-wrapper'>
       <div class='da-login-logo'>
-        <span class='da-logo-devui'>
-          <img src='assets/devui-logo.svg' alt='DevUI-Logo' />
-        </span>
         <span class='da-text'>DevUI</span>
       </div>
-      <span class='da-coperation'>{{ 'loginPage.coperation' | translate }}</span>
     </div>
     <div class='da-login-ways'>
       <d-tabs [(activeTab)]='tabActiveId' type='pills'>
@@ -66,7 +62,6 @@
 
   <da-footer></da-footer>
 </div>
-
 <ng-template #loginWithPassword>
   <form dForm [layout]='horizontalLayout' [labelSize]="'sm'" ngForm (dSubmit)='onClick(tabActiveId)'>
     <d-form-item>
@@ -157,7 +152,6 @@
     </button>
   </form>
 </ng-template>
-
 <ng-template #suffixTemplate>
   <i [class]="showPassword ? 'icon icon-preview' : 'icon icon-preview-forbidden'" (click)='showPassword = !showPassword'></i>
 </ng-template>
