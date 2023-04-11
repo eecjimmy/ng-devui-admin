@@ -131,9 +131,11 @@ export class WorkItemService extends WorkItemData {
   getHandlingWork(): Observable<WorkItem[]> {
     return observableOf(this.handlingWork);
   }
+
   getTracingWork(): Observable<WorkItem[]> {
     return observableOf(this.tracingWork);
   }
+
   getRiskWork(): Observable<WorkItem[]> {
     return observableOf(this.riskWork);
   }

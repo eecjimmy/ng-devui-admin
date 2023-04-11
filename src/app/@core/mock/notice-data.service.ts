@@ -136,9 +136,11 @@ export class NoticeDataService extends NoticeData {
   getNotifications(): Observable<Notification[]> {
     return observableOf(this.notifications);
   }
+
   getMessages(): Observable<Message[]> {
     return observableOf(this.messages);
   }
+
   getTodos(): Observable<Todo[]> {
     return observableOf(this.todos);
   }

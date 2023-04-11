@@ -23,5 +23,6 @@ export interface GanttSource {
 
 export abstract class GanttData {
   abstract getGantts(): Observable<GanttSource[]>;
+
   abstract getGanttYear(): number;
 }

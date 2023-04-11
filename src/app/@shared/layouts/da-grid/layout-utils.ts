@@ -101,7 +101,7 @@ export function setScreenPointElementsSpaceAndGutter(
   point: DaBreakpoint,
   dir: string,
   context: any,
-  renderer: Renderer2
+  renderer: Renderer2,
 ): void {
   let spaceName, space, gutterName, gutter;
 

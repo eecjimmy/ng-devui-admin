@@ -10,6 +10,8 @@ export interface WorkItem {
 
 export abstract class WorkItemData {
   abstract getHandlingWork(): Observable<WorkItem[]>;
+
   abstract getTracingWork(): Observable<WorkItem[]>;
+
   abstract getRiskWork(): Observable<WorkItem[]>;
 }

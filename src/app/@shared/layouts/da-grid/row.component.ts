@@ -1,4 +1,14 @@
-import { Component, ChangeDetectionStrategy, HostBinding, Input, OnChanges, OnInit, ElementRef, Renderer2, OnDestroy } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  HostBinding,
+  Input,
+  OnChanges,
+  OnInit,
+  ElementRef,
+  Renderer2,
+  OnDestroy,
+} from '@angular/core';
 import { setGridClass } from './layout-utils';
 import { DaAlignSelf } from './layout.types';
 
@@ -45,7 +55,8 @@ export class RowComponent implements OnInit, OnChanges {
   constructor(
     private elementRef: ElementRef,
     private renderer: Renderer2,
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     setGridClass(this, this.elementRef, this.renderer);

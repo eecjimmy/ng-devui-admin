@@ -12,6 +12,7 @@ export class DaLayoutHeaderComponent implements OnDestroy {
   private destroy$ = new Subject<void>();
 
   @HostBinding('class.da-layout-header') default = true;
+
   @HostBinding('style.height')
   get height() {
     return this?.config?.height + 'px';
@@ -52,6 +53,7 @@ export class DaLayoutSecHeaderComponent implements OnDestroy {
   private destroy$ = new Subject<void>();
 
   @HostBinding('class.da-layout-sec-header') default = true;
+
   @HostBinding('style.height')
   get height() {
     return this?.config?.height + 'px';
@@ -92,6 +94,7 @@ export class DaLayoutSidebarComponent implements OnDestroy {
   private destroy$ = new Subject<void>();
 
   @HostBinding('class.da-layout-sidebar') default = true;
+
   @HostBinding('style.width')
   get width() {
     return this?.config?.width + 'px';
@@ -132,6 +135,7 @@ export class DaLayoutSecSidebarComponent implements OnDestroy {
   private destroy$ = new Subject<void>();
 
   @HostBinding('class.da-layout-sec-sidebar') default = true;
+
   @HostBinding('style.width')
   get width() {
     return this?.config?.width + 'px';
@@ -172,6 +176,7 @@ export class DaLayoutFooterComponent implements OnDestroy {
   private destroy$ = new Subject<void>();
 
   @HostBinding('class.da-layout-footer') default = true;
+
   @HostBinding('style.width')
   get height() {
     return this?.config?.height + 'px';

@@ -24,7 +24,7 @@ ThemeServiceInit({
   provenceTheme,
   deepTheme,
   devuiDarkTheme,
-  customTheme
+  customTheme,
 });
 
 if (environment.production) {

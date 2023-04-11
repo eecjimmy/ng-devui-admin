@@ -29,4 +29,5 @@ import { LayoutModule } from 'ng-devui/layout';
     DaLayoutFooterComponent,
   ],
 })
-export class DaLayoutModule {}
+export class DaLayoutModule {
+}

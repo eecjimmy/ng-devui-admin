@@ -24,9 +24,11 @@ export class AdminFormComponent implements OnInit {
 
   @Output() canceled = new EventEmitter();
 
-  constructor() {}
+  constructor() {
+  }
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
   submitPlanForm({ valid }: { valid: boolean }) {
     if (valid) {

@@ -37,5 +37,6 @@ export interface DaLayoutConfig {
     height?: number;
     hidden?: boolean;
   };
+
   [key: string]: any;
 }

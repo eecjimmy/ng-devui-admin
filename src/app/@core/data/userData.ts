@@ -38,6 +38,8 @@ export interface Project {
 
 export abstract class UserData {
   abstract getUser(): Observable<User>;
+
   abstract getArticles(): Observable<Article[]>;
+
   abstract getProjects(): Observable<Project[]>;
 }

@@ -29,6 +29,8 @@ export interface Todo {
 
 export abstract class NoticeData {
   abstract getNotifications(): Observable<Notification[]>;
+
   abstract getMessages(): Observable<Message[]>;
+
   abstract getTodos(): Observable<Todo[]>;
 }

@@ -13,12 +13,13 @@ export class AuthGuardService implements CanActivate {
     private router: Router,
     private authService: AuthService,
     private toastService: ToastService,
-    private translate: TranslateService
-  ) {}
+    private translate: TranslateService,
+  ) {
+  }
 
   canActivate(
     route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
+    state: RouterStateSnapshot,
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     if (!this.authService.isUserLoggedIn()) {
       this.i18nValues = this.translate.instant('authNotice');

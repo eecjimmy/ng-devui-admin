@@ -34,7 +34,8 @@ const USERS = [
 
 @Injectable()
 export class AuthService {
-  constructor() {}
+  constructor() {
+  }
 
   login(account: string, password: string) {
     for (let i = 0; i < USERS.length; i++) {

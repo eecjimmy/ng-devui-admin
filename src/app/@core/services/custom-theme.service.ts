@@ -3,8 +3,10 @@ import { devuiDarkTheme, devuiLightTheme } from 'ng-devui/theme';
 // @ts-ignore
 import * as Color from 'color';
 import { ColorHierarchyMap } from './color-hierarchy';
+
 type HslModelKey = 'h' | 's' | 'l' | 'a' | 'sp' | 'lp' | 'ap';
 type HsvModelKey = 'h' | 's' | 'v' | 'a' | 'sp' | 'vp' | 'ap';
+
 interface IColorOffset {
   hsl?: {
     [p in HslModelKey]?: number;
@@ -13,7 +15,9 @@ interface IColorOffset {
     [p in HsvModelKey]?: number;
   };
 }
+
 type ISingleOffset = { [p in HslModelKey]?: number } | { [p in HsvModelKey]?: number };
+
 interface IColorObject {
   colorName?: string;
   color?: Color;
@@ -36,14 +40,18 @@ interface IColorHierarchy {
     };
   };
 }
+
 interface IThemeData {
   [colorName: string]: string;
 }
+
 interface IColorDef {
   colorName?: string;
   color?: string;
 }
+
 type IEffect = 'hsl' | 'hsv' | 'strong' | 'soft' | 'light' | 'contrast';
+
 // hsl | hsv | 浓郁 | 柔和 | 轻快 | 对比 |
 @Injectable()
 export class CustomThemeService {
@@ -89,6 +97,7 @@ export class CustomThemeService {
     }
     return pattern;
   }
+
   private fillEmptyColor(pattern: IColorHierarchy, effect: IEffect | undefined) {
     const colorKeys = Object.keys(pattern);
     const noColorArray = colorKeys
@@ -128,6 +137,7 @@ export class CustomThemeService {
     });
     return pattern;
   }
+
   private getThemeOffset(colorHierarchy: IColorHierarchy, themeData: IThemeData): Array<IColorObject> {
     const colorKeys = Object.keys(colorHierarchy);
     const themeColorOffset = colorKeys
@@ -137,7 +147,7 @@ export class CustomThemeService {
             colorName: key,
             color: Color(themeData[key]),
             extends: this.colorHierarchy[key].extends ? Color(themeData[this.colorHierarchy[key].extends]) : null,
-          } as IColorObject)
+          } as IColorObject),
       )
       .map((colorObj) => {
         if (colorObj.extends) {
@@ -173,6 +183,7 @@ export class CustomThemeService {
       ...percent,
     };
   }
+
   private getColorEffectOffset(source: Color, colorOffset: IColorOffset | any, effect?: IEffect) {
     let result: any = {};
     switch (effect) {

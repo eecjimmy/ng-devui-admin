@@ -8,7 +8,9 @@ import { Component, Input, OnInit } from '@angular/core';
 export class HeaderLogoComponent implements OnInit {
   @Input() shrink = false;
 
-  constructor() {}
+  constructor() {
+  }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 }

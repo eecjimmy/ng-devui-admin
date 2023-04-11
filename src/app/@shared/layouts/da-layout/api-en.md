@@ -30,4 +30,5 @@ layoutService.updateLayoutConfig(config: DaLayoutConfig)
 ```
 
 # Set the default layout.
+
 + Place the layout configuration you want in `default-layout.config.ts`.

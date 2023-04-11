@@ -20,10 +20,10 @@ import { AdminFormModule } from "src/app/@shared/admin-form/admin-form.module";
 
 ## 参数
 
-|    参数    |     类型     | 默认 | 说明           |
+| 参数 | 类型 | 默认 | 说明 |
 | :--------: | :----------: | :--: | :------------- | --- |
-| formConfig | `FormConfig` |  --  | 必选，配置文件 |     |
-|  formData  |      ``      |  --  | 必选，数据     |
+| formConfig | `FormConfig` | -- | 必选，配置文件 | |
+| formData |      ``      | -- | 必选，数据 |
 
 ### FormConfig 参数说明
 

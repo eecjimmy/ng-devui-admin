@@ -68,6 +68,7 @@ export class GanttDataService extends GanttData {
   getGantts(): Observable<GanttSource[]> {
     return observableOf(this.ganttBasicData);
   }
+
   getGanttYear(): number {
     return this.curYear;
   }

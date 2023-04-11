@@ -24,15 +24,16 @@ export class DaStyleDirective implements OnInit, OnDestroy {
   constructor(
     private elementRef: ElementRef,
     private renderer: Renderer2,
-    private screenQueryService: DaScreenMediaQueryService
-  ) { }
+    private screenQueryService: DaScreenMediaQueryService,
+  ) {
+  }
 
   ngOnInit(): void {
     this.screenQueryService.getPoint()
-    .pipe(takeUntil(this.destroy$))
-    .subscribe(({ currentPoint }) => {
-      setScreenPointStyle(currentPoint, this, this.elementRef, this.renderer);
-    });
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(({ currentPoint }) => {
+        setScreenPointStyle(currentPoint, this, this.elementRef, this.renderer);
+      });
   }
 
   ngOnDestroy(): void {

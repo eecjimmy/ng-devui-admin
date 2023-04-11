@@ -70,7 +70,7 @@ export class LoginComponent implements OnInit {
     private authService: AuthService,
     private translate: TranslateService,
     private i18n: I18nService,
-    private personalizeService: PersonalizeService
+    private personalizeService: PersonalizeService,
   ) {
     this.language = this.translate.currentLang;
   }
@@ -121,7 +121,7 @@ export class LoginComponent implements OnInit {
                 content: this.i18nValues['noticeMessage']['accountContent'],
               },
             ];
-          }
+          },
         );
         break;
       case 'tab2':
@@ -138,7 +138,7 @@ export class LoginComponent implements OnInit {
                 content: this.i18nValues['noticeMessage']['emailContent'],
               },
             ];
-          }
+          },
         );
         break;
       default:

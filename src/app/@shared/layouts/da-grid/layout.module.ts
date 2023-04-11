@@ -14,10 +14,10 @@ import { DaFlexDirective } from './flex.directive';
     RowComponent,
     ColComponent,
     DaStyleDirective,
-    DaFlexDirective
+    DaFlexDirective,
   ],
   imports: [
-    CommonModule
+    CommonModule,
   ],
   exports: [
     LayoutRowComponent,
@@ -25,7 +25,8 @@ import { DaFlexDirective } from './flex.directive';
     RowComponent,
     ColComponent,
     DaStyleDirective,
-    DaFlexDirective
-  ]
+    DaFlexDirective,
+  ],
 })
-export class DaGridModule { }
+export class DaGridModule {
+}

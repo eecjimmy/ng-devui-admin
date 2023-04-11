@@ -18,10 +18,10 @@ import { takeUntil } from 'rxjs/operators';
         margin: 0;
         padding: 0;
       }
-    `
+    `,
   ],
   encapsulation: ViewEncapsulation.None,
-  preserveWhitespaces: false
+  preserveWhitespaces: false,
 })
 export class LayoutColComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
   private destroy$ = new Subject<void>();
@@ -104,8 +104,9 @@ export class LayoutColComponent implements OnInit, AfterViewInit, OnChanges, OnD
   constructor(
     private elementRef: ElementRef,
     private renderer: Renderer2,
-    private screenQueryService: DaScreenMediaQueryService
-  ) { }
+    private screenQueryService: DaScreenMediaQueryService,
+  ) {
+  }
 
   ngOnInit(): void {
     setGridClass(this, this.elementRef, this.renderer);
@@ -117,10 +118,10 @@ export class LayoutColComponent implements OnInit, AfterViewInit, OnChanges, OnD
 
   ngAfterViewInit(): void {
     this.screenQueryService.getPoint()
-    .pipe(takeUntil(this.destroy$))
-    .subscribe(({ currentPoint }) => {
-      setScreenPointElementsSpaceAndGutter(this.getAllItems(), currentPoint, 'col', this, this.renderer);
-    });
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(({ currentPoint }) => {
+        setScreenPointElementsSpaceAndGutter(this.getAllItems(), currentPoint, 'col', this, this.renderer);
+      });
   }
 
   getAllItems(): HTMLElement[] {

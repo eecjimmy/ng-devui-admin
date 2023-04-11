@@ -19,7 +19,7 @@ export interface Item {
 
 export interface ListPager {
   pageSize?: number;
-  pageIndex?: number
+  pageIndex?: number;
 }
 
 
@@ -44,7 +44,10 @@ export interface Card {
 
 export abstract class ListData {
   abstract getListData(pager: ListPager): Observable<Item[]>;
+
   abstract getOriginSource(pager: ListPager): Observable<Item[]>;
+
   abstract getTreeSource(pager: ListPager): Observable<Item[]>;
+
   abstract getCardSource(pager: ListPager): Observable<Card[]>;
 }

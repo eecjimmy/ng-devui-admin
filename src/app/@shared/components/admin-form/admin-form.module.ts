@@ -9,4 +9,5 @@ import { FormsModule } from '@angular/forms';
   declarations: [AdminFormComponent],
   exports: [AdminFormComponent],
 })
-export class AdminFormModule {}
+export class AdminFormModule {
+}

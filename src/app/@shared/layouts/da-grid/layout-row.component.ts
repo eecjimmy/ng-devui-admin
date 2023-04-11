@@ -5,6 +5,7 @@ import { DaScreenMediaQueryService } from './screen-media-query.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { DaAlign, DaAlignSelf, DaJustify } from './layout.types';
+
 @Component({
   selector: 'da-layout-row',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -17,10 +18,10 @@ import { DaAlign, DaAlignSelf, DaJustify } from './layout.types';
         margin: 0;
         padding: 0;
       }
-    `
+    `,
   ],
   encapsulation: ViewEncapsulation.None,
-  preserveWhitespaces: false
+  preserveWhitespaces: false,
 })
 
 export class LayoutRowComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
@@ -94,8 +95,9 @@ export class LayoutRowComponent implements OnInit, AfterViewInit, OnChanges, OnD
   constructor(
     private elementRef: ElementRef,
     private renderer: Renderer2,
-    private screenQueryService: DaScreenMediaQueryService
-  ) { }
+    private screenQueryService: DaScreenMediaQueryService,
+  ) {
+  }
 
   ngOnInit(): void {
     setGridClass(this, this.elementRef, this.renderer);
@@ -107,10 +109,10 @@ export class LayoutRowComponent implements OnInit, AfterViewInit, OnChanges, OnD
 
   ngAfterViewInit(): void {
     this.screenQueryService.getPoint()
-    .pipe(takeUntil(this.destroy$))
-    .subscribe(({ currentPoint }) => {
-      setScreenPointElementsSpaceAndGutter(this.getAllItems(), currentPoint, 'row', this, this.renderer);
-    });
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(({ currentPoint }) => {
+        setScreenPointElementsSpaceAndGutter(this.getAllItems(), currentPoint, 'row', this, this.renderer);
+      });
   }
 
   getAllItems(): HTMLElement[] {

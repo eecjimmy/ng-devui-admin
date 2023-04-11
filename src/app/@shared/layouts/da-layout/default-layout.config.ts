@@ -1,4 +1,4 @@
-import { DaLayoutConfig } from "./da-layout.type";
+import { DaLayoutConfig } from './da-layout.type';
 
 export const DEFAULT_LAYOUT_CONFIG: DaLayoutConfig = {
   id: 'leftRight',
