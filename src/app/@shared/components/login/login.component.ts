@@ -5,11 +5,10 @@ import { DValidateRules } from 'ng-devui';
 import { FormLayout } from 'ng-devui';
 import { I18nService } from 'ng-devui/i18n';
 import { Subject } from 'rxjs';
-import { map, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { AuthService } from 'src/app/@core/services/auth.service';
 import { PersonalizeService } from 'src/app/@core/services/personalize.service';
 import { LANGUAGES } from 'src/config/language-config';
-import { environment } from 'src/environments/environment';
 import { ThemeType } from '../../models/theme';
 
 @Component({
@@ -22,20 +21,16 @@ export class LoginComponent implements OnInit {
 
   horizontalLayout: FormLayout = FormLayout.Horizontal;
 
-  tabActiveId: string | number = 'tab1';
   showPassword = false;
 
-  tabItems: any;
   language: string;
   i18nValues: any;
   toastMessage: any;
   languages = LANGUAGES;
 
   formData = {
-    userAccount: 'Admin',
-    userAccountPassword: 'DevUI.admin',
-    userEmail: 'admin@devui.com',
-    userEmailPassword: 'devuiadmin',
+    username: 'Admin',
+    password: 'DevUI.admin',
   };
 
   formRules: { [key: string]: DValidateRules } = {
@@ -45,24 +40,16 @@ export class LoginComponent implements OnInit {
         { minlength: 3 },
         { maxlength: 20 },
         {
-          pattern: /^[a-zA-Z0-9]+(\s+[a-zA-Z0-9]+)*$/,
+          pattern: /^[a-zA-Z\d]+(\s+[a-zA-Z\d]+)*$/,
           message: 'The user name cannot contain characters except uppercase and lowercase letters.',
         },
       ],
     },
-    emailRules: {
-      validators: [{ required: true }, { email: true }],
-    },
     passwordRules: {
-      validators: [{ required: true }, { minlength: 6 }, { maxlength: 15 }, { pattern: /^[a-zA-Z0-9\d@$!%*?&.]+(\s+[a-zA-Z0-9]+)*$/ }],
+      validators: [{ required: true }, { minlength: 6 }, { maxlength: 15 }, { pattern: /^[a-zA-Z\d@$!%*?&.]+(\s+[a-zA-Z\d]+)*$/ }],
       message: 'Enter a password that contains 6 to 15 digits and letters.',
     },
   };
-
-  @HostListener('window:keydown.enter')
-  onEnter() {
-    this.onClick(this.tabActiveId);
-  }
 
   constructor(
     private router: Router,
@@ -81,69 +68,34 @@ export class LoginComponent implements OnInit {
       .pipe(takeUntil(this.destroy$))
       .subscribe((res) => {
         this.i18nValues = this.translate.instant('loginPage');
-        this.updateTabItems(res);
       });
 
-    this.translate.onLangChange.pipe(takeUntil(this.destroy$)).subscribe((event: TranslationChangeEvent) => {
+    this.translate.onLangChange.pipe(takeUntil(this.destroy$)).subscribe((e: TranslationChangeEvent) => {
       this.i18nValues = this.translate.instant('loginPage');
-      this.updateTabItems(this.i18nValues);
     });
     this.personalizeService.setRefTheme(ThemeType.Default);
-
-    // oauth认证回调
-    this.route.queryParams.pipe(map((param) => param.code)).subscribe((code) => {
-      if (code && code.length > 0) {
-        setTimeout(() => {
-          this.toastMessage = [
-            {
-              severity: 'success',
-              content: this.i18nValues['callbackMessage'],
-            },
-          ];
-        });
-      }
-    });
   }
 
-  onClick(tabId: string | number) {
-    switch (tabId) {
-      case 'tab1':
-        this.authService.login(this.formData.userAccount, this.formData.userAccountPassword).subscribe(
-          (res) => {
-            this.authService.setSession(res);
-            this.router.navigate(['/']);
+  doLogin() {
+    this.authService.login(this.formData.username, this.formData.password).subscribe((res) => {
+        this.authService.setSession(res);
+        this.router.navigate(['/'])
+          .then(() => {
+          })
+          .catch((reason) => {
+            console.warn('navigate[\'/\'] failed', reason);
+          });
+      },
+      (error) => {
+        this.toastMessage = [
+          {
+            severity: 'error',
+            summary: this.i18nValues['noticeMessage']['summary'],
+            content: this.i18nValues['noticeMessage']['accountContent'],
           },
-          (error) => {
-            this.toastMessage = [
-              {
-                severity: 'error',
-                summary: this.i18nValues['noticeMessage']['summary'],
-                content: this.i18nValues['noticeMessage']['accountContent'],
-              },
-            ];
-          },
-        );
-        break;
-      case 'tab2':
-        this.authService.login(this.formData.userEmail, this.formData.userEmailPassword).subscribe(
-          (res) => {
-            this.authService.setSession(res);
-            this.router.navigate(['/']);
-          },
-          (error) => {
-            this.toastMessage = [
-              {
-                severity: 'error',
-                summary: this.i18nValues['noticeMessage']['summary'],
-                content: this.i18nValues['noticeMessage']['emailContent'],
-              },
-            ];
-          },
-        );
-        break;
-      default:
-        break;
-    }
+        ];
+      },
+    );
   }
 
   onLanguageClick(language: string) {
@@ -151,39 +103,5 @@ export class LoginComponent implements OnInit {
     localStorage.setItem('lang', this.language);
     this.i18n.toggleLang(this.language);
     this.translate.use(this.language);
-  }
-
-  updateTabItems(values: any) {
-    this.tabItems = [
-      {
-        id: 'tab1',
-        title: values['loginWays']['account'],
-      },
-      {
-        id: 'tab2',
-        title: values['loginWays']['email'],
-      },
-    ];
-  }
-
-  onKeyUp(e: KeyboardEvent, tabId: string | number) {
-    if (e.keyCode === 13) {
-      this.onClick(tabId);
-    }
-  }
-
-  handleAuth(type: string) {
-    console.log(type);
-    //github oauth配置
-    const config = {
-      oauth_uri: 'https://github.com/login/oauth/authorize',
-      redirect_uri: 'https://devui.design/admin/login',
-      client_id: 'ef3ce924fcf915c50910',
-    };
-    if (!environment.production) {
-      config.redirect_uri = 'http://localhost:8001/login';
-      config.client_id = 'ecf5e43d804e8e003196';
-    }
-    window.location.href = `${config.oauth_uri}?client_id=${config.client_id}&redirect_uri=${config.redirect_uri}`;
   }
 }
