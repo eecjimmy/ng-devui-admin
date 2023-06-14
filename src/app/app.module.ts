@@ -9,6 +9,8 @@ import { CoreModule } from './@core/core.module';
 import { SharedModule } from './@shared/shared.module';
 import { Observable, of } from 'rxjs';
 import { I18N } from '../config/language-config';
+import { RouteReuseStrategy } from '@angular/router';
+import { AppRouteReuseStrategy } from './@core/services/route.service';
 
 class I18NLoader implements TranslateLoader {
   getTranslation(lang: 'zh-cn' | 'en-us'): Observable<Object> {
@@ -32,7 +34,9 @@ class I18NLoader implements TranslateLoader {
       },
     }),
   ],
-  providers: [],
+  providers: [
+    { provide: RouteReuseStrategy, useClass: AppRouteReuseStrategy },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {

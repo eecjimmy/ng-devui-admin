@@ -55,6 +55,21 @@
     </div>
   </da-layout-sidebar>
   <div>
+    <d-tabs
+      [type]="'wrapped'"
+      [addable]='true'
+      [scrollMode]="'auto'"
+      [closeable]='true'
+      [showContent]='true'
+      [activeTab]='activateTab ? activateTab.path:""'
+      (activeTabChange)='onChangeTab($event)'
+    >
+      <d-tab
+        *ngFor='let tab of tabData'
+        [id]='tab.path'
+        [title]='tab.title'
+      ></d-tab>
+    </d-tabs>
     <router-outlet></router-outlet>
   </div>
   <da-layout-footer>

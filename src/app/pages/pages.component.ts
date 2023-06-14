@@ -1,7 +1,7 @@
 import { Component, OnInit, Renderer2 } from '@angular/core';
 import { DialogService } from 'ng-devui/modal';
 import { DrawerService, IDrawerOpenResult } from 'ng-devui/drawer';
-import { Subject } from 'rxjs';
+import { filter, Subject } from 'rxjs';
 import { SideSettingsComponent } from '../@shared/components/side-settings/side-settings.component';
 import { PersonalizeComponent } from '../@shared/components/personalize/personalize.component';
 import { PersonalizeService } from '../@core/services/personalize.service';
@@ -12,6 +12,7 @@ import { DaScreenMediaQueryService } from '../@shared/layouts/da-grid';
 import { takeUntil } from 'rxjs/operators';
 import { SideMenuComponent } from '../@shared/components/side-menu/side-menu.component';
 import { Theme } from 'ng-devui/theme';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 
 @Component({
   selector: 'da-pages',
@@ -30,14 +31,18 @@ export class PagesComponent implements OnInit {
   settingDrawer: any;
 
   constructor(
+    private router: Router,
+    private activateRoute: ActivatedRoute,
     private drawerService: DrawerService,
     private dialogService: DialogService,
     private personalizeService: PersonalizeService,
     private layoutService: DaLayoutService,
     private translate: TranslateService,
     private mediaQueryService: DaScreenMediaQueryService,
-    private render2: Renderer2
+    private render2: Renderer2,
   ) {
+
+    this.captchaRouteEvent();
     this.personalizeService.initTheme();
     this.layoutService
       .getLayoutConfig()
@@ -83,7 +88,7 @@ export class PagesComponent implements OnInit {
       const currentTheme = Object.values((window as { [key: string]: any })['devuiThemes']).find((i: Theme | unknown) => {
         return (i as Theme).id === theme;
       });
-      if (currentTheme && (<any>currentTheme).isDark) {
+      if (currentTheme && (<any> currentTheme).isDark) {
         this.render2.addClass(document.body, 'is-dark');
       } else {
         this.render2.removeClass(document.body, 'is-dark');
@@ -133,7 +138,8 @@ export class PagesComponent implements OnInit {
       content: PersonalizeComponent,
       backdropCloseable: true,
       draggable: false,
-      onClose: () => {},
+      onClose: () => {
+      },
       buttons: [],
     });
   }
@@ -163,4 +169,48 @@ export class PagesComponent implements OnInit {
     this.settingDrawer.drawerInstance.destroy();
     this.settingDrawer = null;
   }
+
+  tabData: tab[] = [];
+  activateTab: tab | undefined;
+
+  private captchaRouteEvent() {
+    this.router.events
+      .pipe(filter(e => e instanceof NavigationEnd))
+      .subscribe(e => {
+        const e2 = <NavigationEnd> e;
+        const title = '标题';
+        const menu = { title: title, path: e2.url, active: true };
+        const exist = false;
+        this.activateTab = undefined;
+        this.tabData.forEach(p => {
+          if (p.path == menu.path) {
+            this.activateTab = p;
+            return false;
+          }
+          return true;
+        });
+        if (!this.activateTab) {
+          this.activateTab = menu;
+          this.tabData.push(menu);
+        }
+      });
+  }
+
+  onChangeTab($event: number | string) {
+    const url = <string> $event;
+    if (url == this.router.url) {
+      return;
+    }
+    this.router.navigateByUrl(url).then(r => {
+      console.log(r);
+    }).catch(e => {
+      console.warn(e);
+    });
+  }
+}
+
+interface tab {
+  title: string;
+  path: string;
+  active: boolean;
 }
