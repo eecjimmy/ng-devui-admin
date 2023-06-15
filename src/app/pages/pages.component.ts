@@ -203,11 +203,7 @@ export class PagesComponent implements OnInit {
     if (url == this.router.url) {
       return;
     }
-    this.router.navigateByUrl(url).then(r => {
-      console.log(r);
-    }).catch(e => {
-      console.warn(e);
-    });
+    this.router.navigateByUrl(url).finally()
   }
 
   onAddOrDelete($event: ITabOperation) {
