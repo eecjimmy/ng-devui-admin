@@ -3,11 +3,15 @@ import {
   BaseRouteReuseStrategy,
   DetachedRouteHandle,
 } from '@angular/router';
+import { Injectable } from '@angular/core';
 
 /**
  * 路由重用策略
  * @see https://juejin.cn/post/7132770068009582629
  */
+@Injectable({
+  providedIn: 'root',
+})
 export class AppRouteReuseStrategy extends BaseRouteReuseStrategy {
   /**
    * 用于保存路由快照
@@ -19,6 +23,9 @@ export class AppRouteReuseStrategy extends BaseRouteReuseStrategy {
    * 如果你有路由不想被重用，可以在这个方法中加业务逻辑判断
    **/
   shouldDetach(route: ActivatedRouteSnapshot): boolean {
+    if (route.component === null) {
+      return false;
+    }
     return true;
   }
 
@@ -26,6 +33,9 @@ export class AppRouteReuseStrategy extends BaseRouteReuseStrategy {
    * 以url为key保存路由，key也可以使用其他属性，能确保唯一即可
    **/
   store(route: ActivatedRouteSnapshot, handle: DetachedRouteHandle): void {
+    if (route.component === null) {
+      return;
+    }
     if (handle !== null) {
       const key = this.getKeyByRoute(route);
       AppRouteReuseStrategy.routeSnapshots[key] = handle;
@@ -36,6 +46,9 @@ export class AppRouteReuseStrategy extends BaseRouteReuseStrategy {
    * 缓存中存在则允许还原路由
    **/
   shouldAttach(route: ActivatedRouteSnapshot): boolean {
+    if (route.component === null) {
+      return false;
+    }
     const key = this.getKeyByRoute(route);
     return !!AppRouteReuseStrategy.routeSnapshots[key];
   }
@@ -44,6 +57,9 @@ export class AppRouteReuseStrategy extends BaseRouteReuseStrategy {
    * 从缓存中获取快照，没有返回null
    **/
   retrieve(route: ActivatedRouteSnapshot): DetachedRouteHandle | null {
+    if (route.component === null) {
+      return null;
+    }
     const key = this.getKeyByRoute(route);
     return route.routeConfig ? AppRouteReuseStrategy.routeSnapshots[key] : null;
   }
@@ -56,12 +72,20 @@ export class AppRouteReuseStrategy extends BaseRouteReuseStrategy {
   }
 
   getKeyByRoute(route: ActivatedRouteSnapshot): string {
-    return route.pathFromRoot.map(s => s.url.map(u => u.toString()).join('/')).join('-');
-  }
+    if (route.component === null) {
+      return '';
+    }
+    if (route.pathFromRoot.length === 0) {
+      return '';
+    }
+    const segments = route
+      .pathFromRoot
+      .map((snapshot) => snapshot.url.map((segment) => segment.path))
+      .filter(s => s.length > 0)
+      .join('/')
+    ;
 
-  clearByRoute(route: ActivatedRouteSnapshot): void {
-    const key = this.getKeyByRoute(route);
-    this.clearByKey(key);
+    return '/' + segments;
   }
 
   clearByKey(key: string) {

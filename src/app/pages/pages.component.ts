@@ -12,9 +12,9 @@ import { DaScreenMediaQueryService } from '../@shared/layouts/da-grid';
 import { takeUntil } from 'rxjs/operators';
 import { SideMenuComponent } from '../@shared/components/side-menu/side-menu.component';
 import { Theme } from 'ng-devui/theme';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ITabOperation } from '@devui';
-import { Message, ToastService } from 'ng-devui';
+import { TabInterface, TabService } from '../@core/services/tab.service';
 
 @Component({
   selector: 'da-pages',
@@ -42,10 +42,10 @@ export class PagesComponent implements OnInit {
     private translate: TranslateService,
     private mediaQueryService: DaScreenMediaQueryService,
     private render2: Renderer2,
-    private toastService: ToastService,
+    private tabService: TabService,
   ) {
 
-    this.captchaRouteEvent();
+    this.tabService.onNavigationEnd();
     this.personalizeService.initTheme();
     this.layoutService
       .getLayoutConfig()
@@ -173,52 +173,23 @@ export class PagesComponent implements OnInit {
     this.settingDrawer = null;
   }
 
-  tabData: tab[] = [];
-  activateTab: tab | undefined;
-  toastMessages: Message[] = [];
-
-  private captchaRouteEvent() {
-    this.router.events
-      .pipe(filter(e => e instanceof NavigationEnd))
-      .subscribe(e => {
-        const e2 = <NavigationEnd> e;
-        const title = '标题';
-        const tab = { title: title, path: e2.url, active: true };
-        const exist = false;
-        this.activateTab = undefined;
-        this.tabData.forEach(p => {
-          if (p.path == tab.path) {
-            this.activateTab = p;
-            return false;
-          }
-          return true;
-        });
-        if (!this.activateTab) {
-          this.activateTab = tab;
-          this.tabData.push(tab);
-        }
-      });
-  }
-
-  onChangeTab($event: number | string) {
-    const url = <string> $event;
-    if (url == this.router.url) {
-      return;
-    }
-    this.router.navigateByUrl(url).finally();
+  onTabSwitched($event: number | string) {
+    this.tabService.onTabSwitched($event);
   }
 
   onAddOrDelete($event: ITabOperation) {
     if ($event.operation === 'delete') {
-      if (this.tabData.length === 1) {
-        const result = this.toastService.open({ value: [{ severity: 'error', content: '至少保留一个标签' }] });
-        return;
-      }
-      this.tabData = this.tabData.filter(s => {
-        return s.path != $event.id;
-      });
-      return;
+      this.tabService.onTabDeleted($event.id);
     }
+  }
+
+  tabList(): TabInterface[] {
+    return this.tabService.getTabList();
+  }
+
+  getActivateTabId(): string {
+    const activateTab = this.tabService.getActivateTab();
+    return activateTab ? activateTab.path : '';
   }
 }
 
