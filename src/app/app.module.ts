@@ -35,7 +35,6 @@ class I18NLoader implements TranslateLoader {
     }),
   ],
   providers: [
-    { provide: RouteReuseStrategy, useClass: AppRouteReuseStrategy },
   ],
   bootstrap: [AppComponent],
 })

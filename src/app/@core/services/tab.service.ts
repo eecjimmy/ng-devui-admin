@@ -13,7 +13,12 @@ export class TabService {
   private tabList: TabInterface[] = [];
   private activateTab: TabInterface | undefined;
 
-  constructor(private router: Router, private route: ActivatedRoute, private toastService: ToastService, private reuseRouteService: AppRouteReuseStrategy) {
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private toastService: ToastService,
+    private reuseRouteService: AppRouteReuseStrategy,
+  ) {
   }
 
   // 路由结束事件
@@ -24,7 +29,6 @@ export class TabService {
         const e2 = <NavigationEnd> e; // 强制转换`Event_2`为`NavigationEnd`事件
         const title = '未知标签'; // 默认标签名，后续可以通过其他方式获取，比如通过路由配置中的title或者是其他方式
         const tab = new Tab(e2.url, title);
-        console.log(tab);
         if (!this.getActivateTabByPath(tab.path)) {
           this.tabList.push(tab);
         }
@@ -53,16 +57,15 @@ export class TabService {
     this.router.navigateByUrl(url).finally();
   }
 
-  // tab删除事件
-  private toastLock: boolean = false;
+  private canShowToast = true;
 
   public onTabDeleted(tabId: number | string) {
     if (this.tabList.length <= 1) {
-      if (!this.toastLock) {
+      if (this.canShowToast) {
         this.toastService
-          .open({ value: [{ severity: 'error', content: '至少保留一个标签' }] })
-          .toastInstance.closeEvent.subscribe(() => this.toastLock = false);
-        this.toastLock = true;
+          .open({ value: [{ severity: 'error', summary: '操作失败', content: '至少保留一个标签' }], life: 3000 })
+          .toastInstance.closeEvent.subscribe(() => this.canShowToast = true);
+        this.canShowToast = false;
       }
       return;
     }
