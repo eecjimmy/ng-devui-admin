@@ -58,4 +58,15 @@ export class AppRouteReuseStrategy extends BaseRouteReuseStrategy {
   getKeyByRoute(route: ActivatedRouteSnapshot): string {
     return route.pathFromRoot.map(s => s.url.map(u => u.toString()).join('/')).join('-');
   }
+
+  clearByRoute(route: ActivatedRouteSnapshot): void {
+    const key = this.getKeyByRoute(route);
+    this.clearByKey(key);
+  }
+
+  clearByKey(key: string) {
+    if (AppRouteReuseStrategy.routeSnapshots[key]) {
+      delete AppRouteReuseStrategy.routeSnapshots[key];
+    }
+  }
 }

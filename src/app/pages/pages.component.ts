@@ -14,7 +14,7 @@ import { SideMenuComponent } from '../@shared/components/side-menu/side-menu.com
 import { Theme } from 'ng-devui/theme';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { ITabOperation } from '@devui';
-import { AppRouteReuseStrategy } from '../@core/services/route.service';
+import { Message, ToastService } from 'ng-devui';
 
 @Component({
   selector: 'da-pages',
@@ -42,6 +42,7 @@ export class PagesComponent implements OnInit {
     private translate: TranslateService,
     private mediaQueryService: DaScreenMediaQueryService,
     private render2: Renderer2,
+    private toastService: ToastService,
   ) {
 
     this.captchaRouteEvent();
@@ -174,6 +175,7 @@ export class PagesComponent implements OnInit {
 
   tabData: tab[] = [];
   activateTab: tab | undefined;
+  toastMessages: Message[] = [];
 
   private captchaRouteEvent() {
     this.router.events
@@ -203,11 +205,15 @@ export class PagesComponent implements OnInit {
     if (url == this.router.url) {
       return;
     }
-    this.router.navigateByUrl(url).finally()
+    this.router.navigateByUrl(url).finally();
   }
 
   onAddOrDelete($event: ITabOperation) {
     if ($event.operation === 'delete') {
+      if (this.tabData.length === 1) {
+        const result = this.toastService.open({ value: [{ severity: 'error', content: '至少保留一个标签' }] });
+        return;
+      }
       this.tabData = this.tabData.filter(s => {
         return s.path != $event.id;
       });
