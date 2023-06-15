@@ -181,19 +181,19 @@ export class PagesComponent implements OnInit {
       .subscribe(e => {
         const e2 = <NavigationEnd> e;
         const title = '标题';
-        const menu = { title: title, path: e2.url, active: true };
+        const tab = { title: title, path: e2.url, active: true };
         const exist = false;
         this.activateTab = undefined;
         this.tabData.forEach(p => {
-          if (p.path == menu.path) {
+          if (p.path == tab.path) {
             this.activateTab = p;
             return false;
           }
           return true;
         });
         if (!this.activateTab) {
-          this.activateTab = menu;
-          this.tabData.push(menu);
+          this.activateTab = tab;
+          this.tabData.push(tab);
         }
       });
   }
