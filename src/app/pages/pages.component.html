@@ -57,12 +57,13 @@
   <div>
     <d-tabs
       [type]="'wrapped'"
-      [addable]='true'
+      [addable]='false'
       [scrollMode]="'auto'"
       [closeable]='true'
       [showContent]='true'
       [activeTab]='activateTab ? activateTab.path:""'
       (activeTabChange)='onChangeTab($event)'
+      (addOrDeleteTabChange)='onAddOrDelete($event)'
     >
       <d-tab
         *ngFor='let tab of tabData'

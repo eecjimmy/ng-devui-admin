@@ -13,6 +13,8 @@ import { takeUntil } from 'rxjs/operators';
 import { SideMenuComponent } from '../@shared/components/side-menu/side-menu.component';
 import { Theme } from 'ng-devui/theme';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { ITabOperation } from '@devui';
+import { AppRouteReuseStrategy } from '../@core/services/route.service';
 
 @Component({
   selector: 'da-pages',
@@ -206,6 +208,15 @@ export class PagesComponent implements OnInit {
     }).catch(e => {
       console.warn(e);
     });
+  }
+
+  onAddOrDelete($event: ITabOperation) {
+    if ($event.operation === 'delete') {
+      this.tabData = this.tabData.filter(s => {
+        return s.path != $event.id;
+      });
+      return;
+    }
   }
 }
 
