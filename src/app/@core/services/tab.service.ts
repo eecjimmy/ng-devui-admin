@@ -17,7 +17,6 @@ export class TabService {
     private router: Router,
     private route: ActivatedRoute,
     private toastService: ToastService,
-    private reuseRouteService: AppRouteReuseStrategy,
   ) {
   }
 
@@ -72,13 +71,14 @@ export class TabService {
     this.tabList = this.tabList.filter(t => {
       return t.getId() !== tabId;
     });
-    this.reuseRouteService.clearByKey(<string> tabId);
 
     if (this.activateTab?.getId() === tabId) {
       const lastIndex = this.tabList.length - 1;
       const lastTab = this.tabList[lastIndex];
       this.activateTab = lastTab;
-      this.router.navigateByUrl(lastTab.path).finally();
+      this.router.navigateByUrl(lastTab.path).finally(()=>{
+        AppRouteReuseStrategy.clearByKey(<string> tabId);
+      });
     }
   }
 

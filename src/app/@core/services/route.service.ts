@@ -16,16 +16,13 @@ export class AppRouteReuseStrategy extends BaseRouteReuseStrategy {
   /**
    * 用于保存路由快照
    **/
-  public static routeSnapshots: { [key: string]: DetachedRouteHandle } = {};
+  public static routeSnapshots: Map<String, DetachedRouteHandle> = new Map();
 
   /**
    * 允许所有路由重用
    * 如果你有路由不想被重用，可以在这个方法中加业务逻辑判断
    **/
   shouldDetach(route: ActivatedRouteSnapshot): boolean {
-    if (route.component === null) {
-      return false;
-    }
     return true;
   }
 
@@ -33,13 +30,8 @@ export class AppRouteReuseStrategy extends BaseRouteReuseStrategy {
    * 以url为key保存路由，key也可以使用其他属性，能确保唯一即可
    **/
   store(route: ActivatedRouteSnapshot, handle: DetachedRouteHandle): void {
-    if (route.component === null) {
-      return;
-    }
-    if (handle !== null) {
-      const key = this.getKeyByRoute(route);
-      AppRouteReuseStrategy.routeSnapshots[key] = handle;
-    }
+    const key = this.getKeyByRoute(route);
+    AppRouteReuseStrategy.routeSnapshots.set(key, handle);
   }
 
   /**
@@ -50,18 +42,15 @@ export class AppRouteReuseStrategy extends BaseRouteReuseStrategy {
       return false;
     }
     const key = this.getKeyByRoute(route);
-    return !!AppRouteReuseStrategy.routeSnapshots[key];
+    return AppRouteReuseStrategy.routeSnapshots.has(key);
   }
 
   /**
    * 从缓存中获取快照，没有返回null
    **/
   retrieve(route: ActivatedRouteSnapshot): DetachedRouteHandle | null {
-    if (route.component === null) {
-      return null;
-    }
     const key = this.getKeyByRoute(route);
-    return route.routeConfig ? AppRouteReuseStrategy.routeSnapshots[key] : null;
+    return AppRouteReuseStrategy.routeSnapshots.get(key) || null;
   }
 
   /**
@@ -88,9 +77,7 @@ export class AppRouteReuseStrategy extends BaseRouteReuseStrategy {
     return '/' + segments;
   }
 
-  clearByKey(key: string) {
-    if (AppRouteReuseStrategy.routeSnapshots[key]) {
-      delete AppRouteReuseStrategy.routeSnapshots[key];
-    }
+  public static clearByKey(key: string) {
+    AppRouteReuseStrategy.routeSnapshots.delete(key);
   }
 }
