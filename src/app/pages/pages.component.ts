@@ -1,7 +1,7 @@
 import { Component, OnInit, Renderer2 } from '@angular/core';
 import { DialogService } from 'ng-devui/modal';
-import { DrawerService, IDrawerOpenResult } from 'ng-devui/drawer';
-import { filter, Subject } from 'rxjs';
+import { DrawerService } from 'ng-devui/drawer';
+import { Subject } from 'rxjs';
 import { SideSettingsComponent } from '../@shared/components/side-settings/side-settings.component';
 import { PersonalizeComponent } from '../@shared/components/personalize/personalize.component';
 import { PersonalizeService } from '../@core/services/personalize.service';
@@ -191,10 +191,4 @@ export class PagesComponent implements OnInit {
     const activateTab = this.tabService.getActivateTab();
     return activateTab ? activateTab.path : '';
   }
-}
-
-interface tab {
-  title: string;
-  path: string;
-  active: boolean;
 }
