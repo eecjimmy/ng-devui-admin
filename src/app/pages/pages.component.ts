@@ -107,8 +107,7 @@ export class PagesComponent implements OnInit {
     this.drawerService.open({
       drawerContentComponent: SideMenuComponent,
       width: '240px',
-      position: 'left' /* TODO: if destroyOnHide is false, there has some problem, waiting ng-devui bug fix*/,
-      // destroyOnHide: false,
+      position: 'left',
       data: {
         data: this.menu,
       },
