@@ -20,8 +20,7 @@ export class TabService {
   ) {
   }
 
-  // 路由结束事件
-  public onNavigationEnd() {
+  public init() {
     this.router.events
       .pipe(filter(e => e instanceof NavigationEnd)) // 仅处理`NavigationEnd`事件
       .subscribe(e => {

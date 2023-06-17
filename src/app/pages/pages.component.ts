@@ -15,6 +15,7 @@ import { Theme } from 'ng-devui/theme';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ITabOperation } from '@devui';
 import { TabInterface, TabService } from '../@core/services/tab.service';
+import { Menu, MenuService } from '../@core/services/menu.service';
 
 @Component({
   selector: 'da-pages',
@@ -24,7 +25,7 @@ import { TabInterface, TabService } from '../@core/services/tab.service';
 export class PagesComponent implements OnInit {
   private destroy$ = new Subject<void>();
 
-  menu: any;
+  menu: Menu[] = [];
 
   layoutConfig: DaLayoutConfig = { id: 'sidebar', sidebar: {} };
   isSidebarShrink: boolean = false;
@@ -43,9 +44,11 @@ export class PagesComponent implements OnInit {
     private mediaQueryService: DaScreenMediaQueryService,
     private render2: Renderer2,
     private tabService: TabService,
+    private menuService: MenuService,
   ) {
 
-    this.tabService.onNavigationEnd();
+    this.menuService.getMenuData().subscribe(r => this.menu = r);
+    this.tabService.init();
     this.personalizeService.initTheme();
     this.layoutService
       .getLayoutConfig()
@@ -76,17 +79,7 @@ export class PagesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.translate
-      .get('page')
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((res) => {
-        this.updateMenu(res);
-      });
-
-    this.translate.onLangChange.pipe(takeUntil(this.destroy$)).subscribe((event: TranslationChangeEvent) => {
-      const values = this.translate.instant('page');
-      this.updateMenu(values);
-    });
+    this.translate.get('page').pipe(takeUntil(this.destroy$));
     this.personalizeService.getUiTheme()!.subscribe((theme) => {
       const currentTheme = Object.values((window as { [key: string]: any })['devuiThemes']).find((i: Theme | unknown) => {
         return (i as Theme).id === theme;
@@ -97,10 +90,6 @@ export class PagesComponent implements OnInit {
         this.render2.removeClass(document.body, 'is-dark');
       }
     });
-  }
-
-  updateMenu(values: any) {
-    this.menu = getMenu(values);
   }
 
   openSideMenuDrawer() {

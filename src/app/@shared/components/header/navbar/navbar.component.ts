@@ -1,7 +1,8 @@
 import { AfterViewInit, Component, ElementRef, HostListener, Input, OnInit, Renderer2 } from '@angular/core';
-import { NavigationEnd, Router, RouterEvent } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { ConnectedPosition } from '@angular/cdk/overlay';
 import { AppendToBodyDirection } from 'ng-devui/utils';
+import { Menu } from '../../../../@core/services/menu.service';
 
 @Component({
   selector: 'da-navbar',
@@ -9,7 +10,7 @@ import { AppendToBodyDirection } from 'ng-devui/utils';
   styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent implements OnInit, AfterViewInit {
-  @Input() data: any[];
+  @Input() data: Menu[] = [];
 
   _mode: 'left' | 'top' = 'top';
   @Input() set mode(mode) {
@@ -26,16 +27,9 @@ export class NavbarComponent implements OnInit, AfterViewInit {
     this.refreshDataAndView();
   }
 
-  dropdownDirections: {
-    [key: string]: (AppendToBodyDirection | ConnectedPosition)[];
-  } = {
+  dropdownDirections: { [key: string]: (AppendToBodyDirection | ConnectedPosition)[]; } = {
     left: [
-      {
-        originX: 'end',
-        originY: 'top',
-        overlayX: 'start',
-        overlayY: 'top',
-      },
+      { originX: 'end', originY: 'top', overlayX: 'start', overlayY: 'top' },
     ],
     top: ['rightDown'],
   };
@@ -57,7 +51,7 @@ export class NavbarComponent implements OnInit, AfterViewInit {
     offsetTop: number;
   }[] = [];
 
-  packData: any[] = [];
+  packData: Menu[] = [];
   packItemsActive = false;
 
   get showTitle(): boolean {
@@ -95,7 +89,7 @@ export class NavbarComponent implements OnInit, AfterViewInit {
       if (this.elementsState[i] && this.elementsState[i].width + this.elementsState[i].offsetLeft > parentWidth - 40) {
         this.packData.push(this.data[i]);
 
-        if (this.currentUrl.indexOf(this.data[i].link) !== -1) {
+        if (this.currentUrl.indexOf(this.data[i].link ?? '') !== -1) {
           this.packItemsActive = true;
         }
 
@@ -112,7 +106,7 @@ export class NavbarComponent implements OnInit, AfterViewInit {
         this.currentUrl = event.urlAfterRedirects;
         this.packItemsActive = false;
         this.packData.forEach((item) => {
-          if (this.currentUrl.indexOf(item.link) !== -1) {
+          if (this.currentUrl.indexOf(item.link ?? '') !== -1) {
             this.packItemsActive = true;
           }
         });

@@ -1,29 +1,11 @@
 <da-layout>
   <da-layout-header [class.da-no-logo]="layoutConfig['hideLogo']">
-    <da-header-logo
-      *ngIf="
-        (layoutConfig.mode === 'headerTop' || isSidebarFold) &&
-        !layoutConfig['hideLogo']
-      "
-      [shrink]='isSidebarFold'
-    ></da-header-logo>
-    <span
-      *ngIf='isSidebarFold'
-      class='da-header-collapsed-button'
-      (click)='openSideMenuDrawer()'
-    >
+    <da-header-logo *ngIf=" (layoutConfig.mode === 'headerTop' || isSidebarFold) && !layoutConfig['hideLogo'] " [shrink]='isSidebarFold'></da-header-logo>
+    <span *ngIf='isSidebarFold' class='da-header-collapsed-button' (click)='openSideMenuDrawer()'>
       <i class='icon icon-list-view'></i>
     </span>
-    <da-navbar
-      *ngIf="layoutConfig.id === 'topNav' && !isSidebarFold"
-      [data]='menu'
-      [mode]="'top'"
-      style='flex: 1 1 0%'
-    ></da-navbar>
-    <div
-      *ngIf="layoutConfig.id !== 'topNav' || isSidebarFold"
-      style='flex: 1 1 0%'
-    ></div>
+    <da-navbar *ngIf="layoutConfig.id === 'topNav' && !isSidebarFold" [data]='menu' [mode]="'top'" style='flex: 1 1 0'></da-navbar>
+    <div *ngIf="layoutConfig.id !== 'topNav' || isSidebarFold" style='flex: 1 1 0'></div>
     <da-header></da-header>
   </da-layout-header>
   <da-layout-sidebar>
