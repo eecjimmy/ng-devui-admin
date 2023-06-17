@@ -76,7 +76,7 @@ export class TabService {
       const lastIndex = this.tabList.length - 1;
       const lastTab = this.tabList[lastIndex];
       this.activateTab = lastTab;
-      this.router.navigateByUrl(lastTab.path).finally(()=>{
+      this.router.navigateByUrl(lastTab.path).finally(() => {
         AppRouteReuseStrategy.clearByKey(<string> tabId);
       });
     }
