@@ -4,13 +4,14 @@ import { Menu } from '../../../@core/services/menu.service';
 @Component({
   selector: 'da-side-menu',
   templateUrl: './side-draw.component.html',
-  styleUrls: ['./side-draw.component.scss']
+  styleUrls: ['./side-draw.component.scss'],
 })
 export class SideMenuComponent implements OnInit {
 
   @Input() data: Menu[] = [];
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit(): void {
   }
