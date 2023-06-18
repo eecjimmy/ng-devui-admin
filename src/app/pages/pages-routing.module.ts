@@ -11,28 +11,23 @@ const routes: Routes = [
     children: [
       {
         path: 'dashboard',
-        loadChildren: () =>
-          import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
+        loadChildren: () => import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
       },
       {
         path: 'form',
-        loadChildren: () =>
-          import('./form/form.module').then((m) => m.FormModule),
+        loadChildren: () => import('./form/form.module').then((m) => m.FormModule),
       },
       {
         path: 'list',
-        loadChildren: () =>
-          import('./list/list.module').then((m) => m.ListModule),
+        loadChildren: () => import('./list/list.module').then((m) => m.ListModule),
       },
       {
         path: 'abnormal',
-        loadChildren: () =>
-          import('./abnormal/abnormal.module').then((m) => m.AbnormalModule),
+        loadChildren: () => import('./abnormal/abnormal.module').then((m) => m.AbnormalModule),
       },
       {
         path: 'user',
-        loadChildren: () =>
-          import('./user/user.module').then((m) => m.UserModule),
+        loadChildren: () => import('./user/user.module').then((m) => m.UserModule),
       },
       {
         path: '',
@@ -51,4 +46,5 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class PagesRoutingModule {}
+export class PagesRoutingModule {
+}
