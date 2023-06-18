@@ -10,7 +10,7 @@ import { Menu } from '../../../../@core/services/menu.service';
   styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent implements OnInit, AfterViewInit {
-  @Input() data: Menu[] = [];
+  @Input() list: Menu[] = [];
 
   _mode: 'left' | 'top' = 'top';
   @Input() set mode(mode) {
@@ -87,9 +87,9 @@ export class NavbarComponent implements OnInit, AfterViewInit {
     this.packItemsActive = false;
     itemElements.forEach((element: any, i: number) => {
       if (this.elementsState[i] && this.elementsState[i].width + this.elementsState[i].offsetLeft > parentWidth - 40) {
-        this.packData.push(this.data[i]);
+        this.packData.push(this.list[i]);
 
-        if (this.currentUrl.indexOf(this.data[i].link ?? '') !== -1) {
+        if (this.currentUrl.indexOf(this.list[i].link ?? '') !== -1) {
           this.packItemsActive = true;
         }
 

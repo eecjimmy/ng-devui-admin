@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Menu } from '../../../@core/services/menu.service';
 
 @Component({
   selector: 'da-side-menu',
@@ -7,7 +8,7 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class SideMenuComponent implements OnInit {
 
-  @Input() data: any;
+  @Input() data: Menu[] = [];
 
   constructor() { }
 
