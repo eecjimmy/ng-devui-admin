@@ -1,13 +1,6 @@
-<d-accordion
-  class="da-menu"
-  [data]="data"
-  [menuItemTemplate]="menuTemplate"
-  [linkType]="'routerLink'"
-  [accordionType]="'embed'"
-  [autoOpenActiveMenu]="true"
-></d-accordion>
+<d-accordion class='da-menu' [data]='data' [menuItemTemplate]='menuTemplate' [linkType]="'routerLink'" [accordionType]="'embed'" [autoOpenActiveMenu]='true'></d-accordion>
 
-<ng-template #menuTemplate let-item="item">
-  <i [class]="item.icon" style="margin-right: 8px"></i>
+<ng-template #menuTemplate let-item='item'>
+  <i [class]='item.icon' style='margin-right: 8px'></i>
   {{ item.title }}
 </ng-template>
