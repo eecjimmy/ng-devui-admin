@@ -12,11 +12,11 @@ const routes: Routes = [
     path: '',
     component: ListComponent,
     children: [
-      { path: 'basic', component: BasicListComponent },
-      { path: 'card', component: CardListComponent },
-      { path: 'editable', component: EditableListComponent },
-      { path: 'advance', component: AdvanceListComponent },
-      { path: 'tree', component: TreeListComponent },
+      { path: 'basic', component: BasicListComponent, title: '基础列表' },
+      { path: 'card', component: CardListComponent, title: '卡片列表' },
+      { path: 'editable', component: EditableListComponent, title: '编辑列表' },
+      { path: 'advance', component: AdvanceListComponent, title: '高级列表' },
+      { path: 'tree', component: TreeListComponent, title: '树状列表' },
     ],
   },
 ];
@@ -25,4 +25,5 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class ListRoutingModule {}
+export class ListRoutingModule {
+}

@@ -1,13 +1,12 @@
-import { Component, OnInit, Renderer2 } from '@angular/core';
+import { AfterViewInit, Component, OnInit, Renderer2 } from '@angular/core';
 import { DialogService } from 'ng-devui/modal';
 import { DrawerService } from 'ng-devui/drawer';
 import { Subject } from 'rxjs';
 import { SideSettingsComponent } from '../@shared/components/side-settings/side-settings.component';
 import { PersonalizeComponent } from '../@shared/components/personalize/personalize.component';
 import { PersonalizeService } from '../@core/services/personalize.service';
-import { TranslateService, TranslationChangeEvent } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 import { DaLayoutConfig, DaLayoutService } from '../@shared/layouts/da-layout';
-import getMenu from './menu';
 import { DaScreenMediaQueryService } from '../@shared/layouts/da-grid';
 import { takeUntil } from 'rxjs/operators';
 import { SideMenuComponent } from '../@shared/components/side-menu/side-menu.component';
@@ -22,7 +21,7 @@ import { Menu, MenuService } from '../@core/services/menu.service';
   templateUrl: './pages.component.html',
   styleUrls: ['./pages.component.scss'],
 })
-export class PagesComponent implements OnInit {
+export class PagesComponent implements OnInit, AfterViewInit {
   private destroy$ = new Subject<void>();
 
   menu: Menu[] = [];
@@ -48,7 +47,6 @@ export class PagesComponent implements OnInit {
   ) {
 
     this.menuService.getMenuData().subscribe(r => this.menu = r);
-    this.tabService.init();
     this.personalizeService.initTheme();
     this.layoutService
       .getLayoutConfig()
@@ -90,6 +88,10 @@ export class PagesComponent implements OnInit {
         this.render2.removeClass(document.body, 'is-dark');
       }
     });
+  }
+
+  ngAfterViewInit() {
+    this.tabService.init();
   }
 
   openSideMenuDrawer() {

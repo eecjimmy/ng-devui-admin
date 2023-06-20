@@ -1,4 +1,4 @@
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, ActivationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
 import { ToastService } from 'ng-devui';
 import { Injectable } from '@angular/core';
@@ -8,30 +8,39 @@ import { AppRouteReuseStrategy } from './route.service';
   providedIn: 'root',
 })
 export class TabService {
-  private static ID: Number = 0;
-
-  private tabList: TabInterface[] = [];
-  private activateTab: TabInterface | undefined;
+  private defaultTab: TabInterface = new Tab('/pages/dashboard/analysis', '分析页');
+  private activateTab: TabInterface = this.defaultTab;
+  private tabList: TabInterface[] = [this.defaultTab];
 
   constructor(
     private router: Router,
-    private route: ActivatedRoute,
+    private activatedRoute: ActivatedRoute,
     private toastService: ToastService,
   ) {
   }
 
   public init() {
     this.router.events
-      .pipe(filter(e => e instanceof NavigationEnd)) // 仅处理`NavigationEnd`事件
+      .pipe(filter(e => e instanceof ActivationEnd)) // 仅处理`ActivationEnd`事件
       .subscribe(e => {
-        const e2 = <NavigationEnd> e; // 强制转换`Event_2`为`NavigationEnd`事件
-        const title = '未知标签'; // 默认标签名，后续可以通过其他方式获取，比如通过路由配置中的title或者是其他方式
-        const tab = new Tab(e2.url, title);
+        const e2 = e as ActivationEnd;
+
+        const routes = e2.snapshot.pathFromRoot;
+        let path: String[] = [];
+        e2.snapshot.pathFromRoot.map(r => {
+          path.push(r.routeConfig?.path || '/');
+        });
+        if (path.join('') !== this.router.url) {
+          return;
+        }
+        const title = e2.snapshot.routeConfig?.title || '未知标签页';
+        const url = this.router.url;
+        const tab = new Tab(url, title.toString());
         if (!this.getActivateTabByPath(tab.path)) {
           this.tabList.push(tab);
         }
         for (let i = 0; i < this.tabList.length; i++) {
-          if (this.tabList[i].path === e2.url) {
+          if (this.tabList[i].path === url) {
             this.activateTab = this.tabList[i];
             break;
           }
@@ -58,10 +67,10 @@ export class TabService {
   private canShowToast = true;
 
   public onTabDeleted(tabId: number | string) {
-    if (this.tabList.length <= 1) {
+    if (tabId === this.defaultTab.path) {
       if (this.canShowToast) {
         this.toastService
-          .open({ value: [{ severity: 'error', summary: '操作失败', content: '至少保留一个标签' }], life: 3000 })
+          .open({ value: [{ severity: 'error', summary: '操作失败', content: '禁止关闭该标签' }], life: 3000 })
           .toastInstance.closeEvent.subscribe(() => this.canShowToast = true);
         this.canShowToast = false;
       }

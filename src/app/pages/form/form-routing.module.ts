@@ -11,10 +11,10 @@ const routes: Routes = [
     path: '',
     component: FormComponent,
     children: [
-      { path: 'basic-form', component: BasicFormComponent },
-      { path: 'form-layout', component: FormLayoutComponent },
-      { path: 'advanced-form', component: AdvanceFormComponent },
-      { path: 'dynamic-form', component: DynamicFormComponent },
+      { path: 'basic-form', component: BasicFormComponent, title: '基础表单', data: { a: 'b' } },
+      { path: 'form-layout', component: FormLayoutComponent, title: '布局表单', data: { a: 'b' } },
+      { path: 'advanced-form', component: AdvanceFormComponent, title: '高级表单' },
+      { path: 'dynamic-form', component: DynamicFormComponent, title: '动态表单' },
     ],
   },
 ];
@@ -23,4 +23,5 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class FormRoutingModule {}
+export class FormRoutingModule {
+}

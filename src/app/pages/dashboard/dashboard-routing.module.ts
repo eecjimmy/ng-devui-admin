@@ -10,9 +10,9 @@ const routes: Routes = [
     path: '',
     component: DashboardComponent,
     children: [
-      { path: 'analysis', component: AnalysisComponent },
-      { path: 'monitor', component: MonitorComponent },
-      { path: 'workspace', component: WorkSpaceComponent },
+      { path: 'analysis', component: AnalysisComponent, title: '分析页' },
+      { path: 'monitor', component: MonitorComponent, title: '监控页' },
+      { path: 'workspace', component: WorkSpaceComponent, title: '工作台' },
       { path: '', redirectTo: 'analysis', pathMatch: 'full' },
     ],
   },
@@ -22,4 +22,5 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class DashboardRoutingModule {}
+export class DashboardRoutingModule {
+}
