@@ -32,10 +32,10 @@
 </da-layout>
 
 <d-back-top [right]="'20px'" [bottom]="'78px'"></d-back-top>
-<div class='da-multi-settings' (click)='openSettingDrawer()' *ngIf='false'>
+<div class='da-multi-settings' (click)='openSettingDrawer()' *ngIf='envService.isDebugMode()'>
   <i class='icon icon-setting'></i>
 </div>
-<div class='da-personalize-config' (click)='personalizeConfig()' *ngIf='false'>
+<div class='da-personalize-config' (click)='personalizeConfig()' *ngIf='envService.isDebugMode()'>
   <!-- TODO: 使用图标更换 -->
   <svg width='18px' height='18px' viewBox='0 0 16 16'>
     <g stroke='none' stroke-width='1' fill='none' fill-rule='evenodd'>

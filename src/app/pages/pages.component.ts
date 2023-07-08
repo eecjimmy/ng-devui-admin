@@ -15,6 +15,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ITabOperation } from '@devui';
 import { TabInterface, TabService } from '../@core/services/tab.service';
 import { Menu, MenuService } from '../@core/services/menu.service';
+import { EnvironmentService } from '../@core/services/environment.service';
 
 @Component({
   selector: 'da-pages',
@@ -44,6 +45,7 @@ export class PagesComponent implements OnInit, AfterViewInit {
     private render2: Renderer2,
     private tabService: TabService,
     private menuService: MenuService,
+    public envService: EnvironmentService,
   ) {
 
     this.menuService.getMenuData().subscribe(r => this.menu = r);

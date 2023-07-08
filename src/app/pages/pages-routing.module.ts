@@ -4,12 +4,13 @@ import { NgModule } from '@angular/core';
 import { PagesComponent } from './pages.component';
 import { NotFoundComponent } from './abnormal/not-found/not-found.component';
 import { tabGuard } from '../@core/services/tab.service';
+import { checkEnvGuard } from '../@core/services/environment.service';
 
 const routes: Routes = [
   {
     path: '',
     component: PagesComponent,
-    canActivateChild: [tabGuard],
+    canActivateChild: [tabGuard, checkEnvGuard],
     children: [
       {
         path: 'dashboard',
