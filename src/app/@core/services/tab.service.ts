@@ -36,12 +36,17 @@ export class TabService {
         const title = e2.snapshot.routeConfig?.title || '未知标签页';
         const url = this.router.url;
         const tab = new Tab(url, title.toString());
+        let exist = true;
         if (!this.getActivateTabByPath(tab.path)) {
+          exist = false;
           this.tabList.push(tab);
         }
         for (let i = 0; i < this.tabList.length; i++) {
           if (this.tabList[i].path === url) {
             this.activateTab = this.tabList[i];
+            if(exist){
+              window.dispatchEvent(new Event("resize"));
+            }
             break;
           }
         }
@@ -61,7 +66,9 @@ export class TabService {
     if (url == this.router.url) {
       return;
     }
-    this.router.navigateByUrl(url).finally();
+    this.router.navigateByUrl(url).then(() => {
+      window.dispatchEvent(new Event('resize'));
+    });
   }
 
   private canShowToast = true;
