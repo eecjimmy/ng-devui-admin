@@ -1,11 +1,12 @@
 import { Component, Input, OnDestroy } from '@angular/core';
 import { Clipboard } from '@angular/cdk/clipboard';
-import { DaLayoutService } from '../../layouts/da-layout/da-layout.service';
+import { DaLayoutService } from '../../layouts/da-layout';
 import { DaLayoutConfig, LEFT_RIGHT_LAYOUT_CONFIG, SIDEBAR_LAYOUT_CONFIG, TOP_NAV_LAYOUT_CONFIG } from '../../layouts/da-layout';
 import { DaScreenMediaQueryService } from '../../layouts/da-grid';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { TranslateService, TranslationChangeEvent } from '@ngx-translate/core';
+import { Message } from 'ng-devui';
 
 @Component({
   selector: 'da-side-settings',
@@ -17,23 +18,23 @@ export class SideSettingsComponent implements OnDestroy {
 
   private destroy$ = new Subject<void>();
 
-  layoutConfig: DaLayoutConfig;
-  layout: string | null;
-  helpContent: string;
-  msgs: Array<Object> = [];
+  layoutConfig: DaLayoutConfig = SIDEBAR_LAYOUT_CONFIG;
+  layout: string | null = '';
+  helpContent: string = '';
+  messageList: Array<Message> = [];
 
   i18nValues: any;
 
   sidebarNotice: any = {};
 
-  private change: number;
-  private compare: { [key: string]: number };
+  private change: number = 0;
+  private compare: { [key: string]: number; } = {};
 
   constructor(
     private clipboard: Clipboard,
     private layoutService: DaLayoutService,
     private mediaQueryService: DaScreenMediaQueryService,
-    private translate: TranslateService
+    private translate: TranslateService,
   ) {
     this.mediaQueryService
       .getPoint()
@@ -107,11 +108,11 @@ export class SideSettingsComponent implements OnDestroy {
 
   onCopyClicked() {
     let isSucceeded = false;
-    const isSupported = !!document.queryCommandSupported && !!document.queryCommandSupported('copy') && !!window;
+    const isSupported = 'copy' in document;
     if (isSupported) {
       isSucceeded = this.clipboard.copy(JSON.stringify(this.layoutConfig, null, 2));
       if (isSucceeded) {
-        this.msgs = [
+        this.messageList = [
           {
             severity: 'success',
             summary: this.i18nValues['copy-summary'],

@@ -2,7 +2,7 @@ import { DaLayoutConfig } from './da-layout.type';
 
 export const DEFAULT_LAYOUT_CONFIG: DaLayoutConfig = {
   id: 'leftRight',
-  mode: 'sidebarTop',
+  mode: 'headerTop',
   header: {
     fixed: true,
     firHeader: {

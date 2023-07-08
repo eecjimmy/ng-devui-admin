@@ -3,6 +3,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { DaLayoutService } from './da-layout.service';
 import { DaLayoutConfig } from './da-layout.type';
+import { SIDEBAR_LAYOUT_CONFIG } from './da-layout.config';
 
 @Component({
   selector: 'da-layout-header',
@@ -214,7 +215,7 @@ export class DaLayoutComponent implements OnDestroy {
   @HostBinding('class.da-layout') default = true;
   private destroy$ = new Subject<void>();
 
-  @Input() config: DaLayoutConfig;
+  @Input() config: DaLayoutConfig = SIDEBAR_LAYOUT_CONFIG;
 
   getSidebarWidth(): string {
     let width = 0;
