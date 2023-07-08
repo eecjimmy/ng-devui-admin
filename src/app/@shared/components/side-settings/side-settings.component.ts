@@ -108,8 +108,7 @@ export class SideSettingsComponent implements OnDestroy {
 
   onCopyClicked() {
     let isSucceeded = false;
-    const isSupported = 'copy' in document;
-    if (isSupported) {
+    try {
       isSucceeded = this.clipboard.copy(JSON.stringify(this.layoutConfig, null, 2));
       if (isSucceeded) {
         this.messageList = [
@@ -119,7 +118,11 @@ export class SideSettingsComponent implements OnDestroy {
             content: this.i18nValues['copy-content'],
           },
         ];
+      } else {
+        this.messageList = [{ severity: 'warning', summary: '复制失败', content: '请更换或者升级为chrome最新版本浏览器' }];
       }
+    } catch (err) {
+      console.warn('复制失败', err);
     }
   }
 
