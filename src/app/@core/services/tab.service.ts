@@ -1,7 +1,7 @@
-import { ActivatedRoute, ActivationEnd, Router } from '@angular/router';
+import { ActivatedRoute, ActivationEnd, CanActivateFn, NavigationStart, Router } from '@angular/router';
 import { filter } from 'rxjs';
 import { ToastService } from 'ng-devui';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { AppRouteReuseStrategy } from './route.service';
 
 @Injectable({
@@ -11,6 +11,7 @@ export class TabService {
   private defaultTab: TabInterface = new Tab('/pages/dashboard/analysis', '分析页');
   private activateTab: TabInterface = this.defaultTab;
   private tabList: TabInterface[] = [this.defaultTab];
+  private MAX_TAB_NUM = 20;
 
   constructor(
     private router: Router,
@@ -20,6 +21,9 @@ export class TabService {
   }
 
   public init() {
+    this.router.events.pipe(filter(e => e instanceof NavigationStart)).subscribe(e => {
+      return false;
+    });
     this.router.events
       .pipe(filter(e => e instanceof ActivationEnd)) // 仅处理`ActivationEnd`事件
       .subscribe(e => {
@@ -36,16 +40,16 @@ export class TabService {
         const title = e2.snapshot.routeConfig?.title || '未知标签页';
         const url = this.router.url;
         const tab = new Tab(url, title.toString());
-        let exist = true;
-        if (!this.getActivateTabByPath(tab.path)) {
-          exist = false;
+        const exist = this.checkIsExist(tab.path);
+        if (!exist) {
           this.tabList.push(tab);
         }
+
         for (let i = 0; i < this.tabList.length; i++) {
           if (this.tabList[i].path === url) {
             this.activateTab = this.tabList[i];
-            if(exist){
-              window.dispatchEvent(new Event("resize"));
+            if (exist) {
+              window.dispatchEvent(new Event('resize'));
             }
             break;
           }
@@ -54,8 +58,8 @@ export class TabService {
   }
 
   // 根据path查找对应的tab
-  private getActivateTabByPath(path: string): TabInterface | undefined {
-    return this.tabList.find(s => {
+  public checkIsExist(path: string): boolean {
+    return !!this.tabList.find(s => {
       return s.path === path;
     });
   }
@@ -104,6 +108,10 @@ export class TabService {
   getActivateTab() {
     return this.activateTab;
   }
+
+  public getMaxTabNum() {
+    return this.MAX_TAB_NUM;
+  }
 }
 
 export interface TabInterface {
@@ -126,3 +134,17 @@ export class Tab implements TabInterface {
     return this.path;
   }
 }
+
+export const tabGuard: CanActivateFn = (route, state) => {
+  const tabService: TabService = inject(TabService);
+  const toastService: ToastService = inject(ToastService);
+  if (tabService.checkIsExist(state.url)) {
+    return true;
+  }
+  if (tabService.getTabList().length >= tabService.getMaxTabNum()) {
+    toastService.open({ value: [{ severity: 'error', summary: '操作失败', content: '打开的标签太多啦，请先关闭部分标签～' }], life: 3000 });
+    return false;
+  }
+
+  return true;
+};

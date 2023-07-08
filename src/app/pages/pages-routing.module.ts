@@ -3,11 +3,13 @@ import { NgModule } from '@angular/core';
 
 import { PagesComponent } from './pages.component';
 import { NotFoundComponent } from './abnormal/not-found/not-found.component';
+import { tabGuard } from '../@core/services/tab.service';
 
 const routes: Routes = [
   {
     path: '',
     component: PagesComponent,
+    canActivateChild: [tabGuard],
     children: [
       {
         path: 'dashboard',
