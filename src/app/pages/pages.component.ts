@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, Renderer2 } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { DialogService } from 'ng-devui/modal';
 import { DrawerService } from 'ng-devui/drawer';
 import { Subject } from 'rxjs';
@@ -12,7 +12,7 @@ import { takeUntil } from 'rxjs/operators';
 import { SideMenuComponent } from '../@shared/components/side-menu/side-menu.component';
 import { Theme } from 'ng-devui/theme';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ITabOperation } from '@devui';
+import { DropDownDirective, ITabOperation, TabsComponent } from '@devui';
 import { TabInterface, TabService } from '../@core/services/tab.service';
 import { Menu, MenuService } from '../@core/services/menu.service';
 import { EnvironmentService } from '../@core/services/environment.service';
@@ -182,5 +182,33 @@ export class PagesComponent implements OnInit, AfterViewInit {
   getActivateTabId(): string {
     const activateTab = this.tabService.getActivateTab();
     return activateTab ? activateTab.path : '';
+  }
+
+  @ViewChild('tabContextMenu', { static: true }) tabContextMenuRef: DropDownDirective | undefined;
+  @ViewChild('contextMenuTab') contextMenuTabRef: ElementRef | undefined;
+  contextMenuIcons = {
+    style: 'padding-right: 5px; vertical-align: middle',
+    icons: {
+      refresh: 'icon-refresh',
+      empty: 'icon-empty',
+      close: 'icon-close',
+    },
+  };
+
+  showTabMenu($event: MouseEvent) {
+    this.contextMenuTabRef = new ElementRef($event.target);
+    if (!this.tabContextMenuRef) {
+      return;
+    }
+    this.tabContextMenuRef.toggle();
+    $event.preventDefault();
+  }
+
+  getActivateTab(): ElementRef {
+    if (this.contextMenuTabRef) {
+      return this.contextMenuTabRef;
+    } else {
+      return new ElementRef<any>(this.tabContextMenuRef);
+    }
   }
 }

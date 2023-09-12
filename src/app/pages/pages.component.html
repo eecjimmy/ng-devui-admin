@@ -21,9 +21,32 @@
     </div>
   </da-layout-sidebar>
   <div>
-    <d-tabs [type]="'wrapped'" [addable]='false' [scrollMode]="'auto'" [closeable]='true' [showContent]='true' [activeTab]='getActivateTabId()' (activeTabChange)='onTabSwitched($event)' (addOrDeleteTabChange)='onAddOrDelete($event)'>
-      <d-tab *ngFor='let tab of tabList()' [id]='tab.getId()' [title]='tab.title'></d-tab>
+    <d-tabs [type]="'wrapped'" [addable]='false' [scrollMode]="'auto'" [closeable]='true' [showContent]='true' [activeTab]='getActivateTabId()' (activeTabChange)='onTabSwitched($event)' (addOrDeleteTabChange)='onAddOrDelete($event)' #tabs>
+      <d-tab *ngFor='let tab of tabList()' [id]='tab.getId()'>
+        <ng-template dTabTitle>
+          <div (contextmenu)='showTabMenu($event)'>{{tab.title}}</div>
+        </ng-template>
+      </d-tab>
     </d-tabs>
+    <div class='btn-group g-dropdown' dDropDown [trigger]="'manually'" #tabContextMenu='d-dropdown' [closeScope]="'all'" appendToBody [alignOrigin]='getActivateTab()'>
+      <ul dDropDownMenu class='devui-dropdown-menu' role='menu'>
+        <li role='menuitem'>
+          <a dDropDownMenuItem><span class='{{contextMenuIcons.icons.refresh}}' [style]='contextMenuIcons.style'></span>重新加载</a>
+        </li>
+        <li>
+          <hr style='margin: 0'>
+        </li>
+        <li role='menuitem'>
+          <a dDropDownMenuItem><span [class]='contextMenuIcons.icons.close' [style]='contextMenuIcons.style'></span>关闭</a>
+        </li>
+        <li role='menuitem'>
+          <a dDropDownMenuItem><span [class]='contextMenuIcons.icons.empty' [style]='contextMenuIcons.style'></span>关闭其他标签</a>
+        </li>
+        <li role='menuitem'>
+          <a dDropDownMenuItem><span [class]='contextMenuIcons.icons.empty' [style]='contextMenuIcons.style'></span>关闭右侧标签</a>
+        </li>
+      </ul>
+    </div>
     <router-outlet></router-outlet>
   </div>
   <da-layout-footer>
