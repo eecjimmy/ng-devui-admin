@@ -21,8 +21,8 @@
               "color",
               "enquire.js"
             ],
-            "baseHref": "./",
-            "outputPath": "dist/admin",
+            "baseHref": "/admin/",
+            "outputPath": "dist",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
