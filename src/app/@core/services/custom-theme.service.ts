@@ -41,7 +41,7 @@ interface IColorHierarchy {
   };
 }
 
-interface IThemeData {
+export interface IThemeData {
   [colorName: string]: string;
 }
 

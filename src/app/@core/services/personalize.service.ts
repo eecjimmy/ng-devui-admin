@@ -2,15 +2,8 @@ import { Injectable } from '@angular/core';
 import { Theme } from 'ng-devui/theme';
 import { ReplaySubject } from 'rxjs';
 import { ThemeType } from 'src/app/@shared/models/theme';
-import {
-  LARGE_RADIUS,
-  LARGE_SIZE,
-  MEDIUM_RADIUS,
-  MEDIUM_SIZE,
-  NORMAL_RADIUS,
-  NORMAL_SIZE,
-} from 'src/config/custom-theme';
-import { CustomThemeService } from './custom-theme.service';
+import { LARGE_RADIUS, LARGE_SIZE, MEDIUM_RADIUS, MEDIUM_SIZE, NORMAL_RADIUS, NORMAL_SIZE } from 'src/config/custom-theme';
+import { CustomThemeService, IThemeData } from './custom-theme.service';
 
 export interface ThemeConfigItem {
   name: string;
@@ -142,18 +135,12 @@ export class PersonalizeService {
     localStorage.setItem('radius', radiusId);
   }
 
-  getCustomThemeData(color: string, isDark: boolean) {
-    const themeData = this.customThemeService.genThemeData(
-      [
-        {
-          colorName: 'devui-brand',
-          color: color,
-        },
-      ],
+  getCustomThemeData(color: string, isDark: boolean): IThemeData {
+    return this.customThemeService.genThemeData(
+      [{ colorName: 'devui-brand', color: color }],
       isDark,
       'hsl',
     );
-    return themeData;
   }
 
   setTheme(theme: any, themeData: any, isDark: boolean) {
