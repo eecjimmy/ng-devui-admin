@@ -23,7 +23,7 @@ export class DynamicFormsComponent implements OnInit {
   @Input() layout = FormLayout.Horizontal;
   @Input() labelSize: 'sm' | '' | 'lg' = '';
   @Input() labelAlign: 'start' | 'center' | 'end' = 'start';
-  @Input() formRules: DValidateRules;
+  @Input() formRules: DValidateRules | undefined;
   @Input() showLoading = true;
   @Input() formSubmitData: any;
   @Input() showSubmitBtn: boolean = true;
@@ -32,9 +32,11 @@ export class DynamicFormsComponent implements OnInit {
   @Input() resetBtnContent: string = 'Reset';
   @Output() formSubmit = new EventEmitter<any>();
 
-  constructor(private formService: DynamicFormsService) {}
+  constructor(private formService: DynamicFormsService) {
+  }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 
   submitForm(event: any) {
     this.formSubmit.emit(event);
