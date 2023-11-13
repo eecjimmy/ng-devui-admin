@@ -9,7 +9,8 @@ import { EchartsService } from 'src/app/@core/mock/echarts.service';
 export class AnalysisLineComponent implements OnInit {
   options: any;
 
-  constructor(private echartsService: EchartsService) {}
+  constructor(private echartsService: EchartsService) {
+  }
 
   ngOnInit(): void {
     this.echartsService.getLineChart().subscribe((option) => {

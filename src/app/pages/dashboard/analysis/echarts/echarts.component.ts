@@ -46,12 +46,13 @@ export class EchartsComponent implements OnInit, AfterViewInit {
   serviceSource: any = [];
   pieSource: any = [];
 
-  resizeSub: Subscription;
+  resizeSub: Subscription | undefined;
   pieChart: any;
 
-  @ViewChild('chartWrapper') chartWrapper: ElementRef;
+  @ViewChild('chartWrapper') chartWrapper: ElementRef | undefined;
 
-  constructor(private echartsService: EchartsService) {}
+  constructor(private echartsService: EchartsService) {
+  }
 
   ngOnInit(): void {
     this.serviceData = echartServiceOption;
