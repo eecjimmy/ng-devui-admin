@@ -43,7 +43,7 @@ export class AuthService {
         return of(userInfo);
       }
     }
-    return throwError('Please make sure you have input correct account and password');
+    return throwError(() => new Error('Please make sure you have input correct account and password'));
   }
 
   logout() {
