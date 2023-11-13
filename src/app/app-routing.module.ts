@@ -10,21 +10,17 @@ const routes: Routes = [
     loadChildren: () =>
       import('./pages/pages.module').then((m) => m.PagesModule),
     canActivate: [AuthGuardService],
-  },
-  {
+  }, {
     path: 'login',
     component: LoginComponent,
-  },
-  {
+  }, {
     path: 'register',
     component: RegisterComponent,
-  },
-  {
+  }, {
     path: '',
     redirectTo: 'pages',
     pathMatch: 'full',
-  },
-  {
+  }, {
     path: '**',
     redirectTo: 'pages',
   },
