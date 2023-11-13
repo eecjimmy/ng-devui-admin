@@ -19,7 +19,6 @@ import { AuthGuardService } from './services/auth-guard-service.guard';
 import { CustomThemeService } from './services/custom-theme.service';
 import { NoticeData } from './data/noticeData';
 import { NoticeDataService } from './mock/notice-data.service';
-import { BehaviorSubject } from 'rxjs';
 
 const DATA_SERVICES = [
   { provide: CourseData, useClass: CourseService },

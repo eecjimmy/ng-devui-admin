@@ -11,8 +11,7 @@ const USERS = [
     phoneNumber: '19999996666',
     email: 'admin@devui.com',
     userId: '100',
-  },
-  {
+  }, {
     account: 'User',
     gender: 'female',
     userName: 'User',
@@ -20,8 +19,7 @@ const USERS = [
     phoneNumber: '19900000000',
     email: 'user@devui.com',
     userId: '200',
-  },
-  {
+  }, {
     account: 'admin@devui.com',
     gender: 'male',
     userName: 'Admin',
