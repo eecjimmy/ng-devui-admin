@@ -20,9 +20,9 @@ export class RegisterComponent implements OnInit {
   showPassword = false;
   showConfirmPassword = false;
 
-  language: string;
+  language: string = '';
   i18nValues: any;
-  toastMessage: Message[];
+  toastMessage: Message[] = [];
   languages = LANGUAGES;
 
   formData = {
@@ -58,8 +58,9 @@ export class RegisterComponent implements OnInit {
     private translate: TranslateService,
     private i18n: I18nService,
     private dialogService: DialogService,
-    private personalizeService: PersonalizeService
-  ) {}
+    private personalizeService: PersonalizeService,
+  ) {
+  }
 
   ngOnInit(): void {
     this.translate
