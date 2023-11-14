@@ -7,8 +7,7 @@ import { RegisterComponent } from './@shared/components/register/register.compon
 const routes: Routes = [
   {
     path: 'pages',
-    loadChildren: () =>
-      import('./pages/pages.module').then((m) => m.PagesModule),
+    loadChildren: () => import('./pages/pages.module').then((m) => m.PagesModule),
     canActivate: [AuthGuardService],
   }, {
     path: 'login',

@@ -66,11 +66,11 @@ export class RegisterComponent implements OnInit {
     this.translate
       .get('registerPage')
       .pipe(takeUntil(this.destroy$))
-      .subscribe((res) => {
+      .subscribe((_res) => {
         this.i18nValues = this.translate.instant('registerPage');
       });
 
-    this.translate.onLangChange.pipe(takeUntil(this.destroy$)).subscribe((event: TranslationChangeEvent) => {
+    this.translate.onLangChange.pipe(takeUntil(this.destroy$)).subscribe((_e: TranslationChangeEvent) => {
       this.i18nValues = this.translate.instant('registerPage');
     });
     this.language = this.translate.currentLang;
@@ -91,7 +91,7 @@ export class RegisterComponent implements OnInit {
           {
             cssClass: 'primary',
             text: 'Ok',
-            handler: ($event: Event) => {
+            handler: (_e: Event) => {
               this.goToLogin(results);
             },
           },
@@ -103,19 +103,39 @@ export class RegisterComponent implements OnInit {
     }
   }
 
-  goToLogin(dialogResult: any) {
+  /**
+   * Navigates to the login page and reloads the page.
+   *
+   * @param {any} dialogResult - The result of the dialog.
+   * @return {void} This function does not return any value.
+   */
+  goToLogin(dialogResult: any): void {
     dialogResult.modalInstance.hide();
-    this.route.navigate(['/login']);
+    this.route.navigate(['/login']).then(_r => {
+      location.reload();
+    });
   }
 
-  onLanguageClick(language: string) {
+  /**
+   * Sets the selected language when a language is clicked.
+   *
+   * @param {string} language - The language to set as selected.
+   * @return {void} This function does not return anything.
+   */
+  onLanguageClick(language: string): void {
     this.language = language;
     localStorage.setItem('lang', this.language);
     this.i18n.toggleLang(this.language);
     this.translate.use(this.language);
   }
 
-  sameToPassWord(value: string) {
+  /**
+   * Check if the given value is the same as the password.
+   *
+   * @param {string} value - The value to compare with the password.
+   * @return {boolean} Returns true if the value is the same as the password, otherwise false.
+   */
+  sameToPassWord(value: string): boolean {
     return value === this.formData.password;
   }
 }
