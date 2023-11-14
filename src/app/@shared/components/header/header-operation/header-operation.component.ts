@@ -12,25 +12,19 @@ import { I18nService } from 'ng-devui/i18n';
   styleUrls: ['./header-operation.component.scss'],
 })
 export class HeaderOperationComponent implements OnInit {
-  user: User;
   languages = LANGUAGES;
-  language: string;
-  haveLoggedIn = false;
-  noticeCount: number;
+  language: string = '';
+  loggedIn = false;
+  noticeCount: number = 0;
 
-  constructor(private route: Router, private authService: AuthService, private translate: TranslateService, private i18n: I18nService) {}
+  constructor(private route: Router, private authService: AuthService, private translate: TranslateService, private i18n: I18nService) {
+  }
+
+  get user(): User {
+    return JSON.parse(localStorage.getItem('userinfo')!) as User;
+  }
 
   ngOnInit(): void {
-    if (localStorage.getItem('userinfo')) {
-      this.user = JSON.parse(localStorage.getItem('userinfo')!);
-      this.haveLoggedIn = true;
-    } else {
-      this.authService.login('Admin', 'Devui.admin').subscribe((res) => {
-        this.authService.setSession(res);
-        this.user = JSON.parse(localStorage.getItem('userinfo')!);
-        this.haveLoggedIn = true;
-      });
-    }
     this.language = this.translate.currentLang;
   }
 
@@ -48,9 +42,11 @@ export class HeaderOperationComponent implements OnInit {
   handleUserOps(operation: string) {
     switch (operation) {
       case 'logout': {
-        this.haveLoggedIn = false;
+        this.loggedIn = false;
         this.authService.logout();
-        this.route.navigate(['/', 'login']);
+        this.route.navigate(['/', 'login']).then(r => {
+          location.reload();
+        });
         break;
       }
       default:

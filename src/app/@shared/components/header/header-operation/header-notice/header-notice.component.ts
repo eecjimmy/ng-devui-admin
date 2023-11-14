@@ -40,7 +40,8 @@ export class HeaderNoticeComponent implements OnInit {
     return `${this.tabTitles.todo}(${length})`;
   }
 
-  constructor(private noticeService: NoticeDataService, private translate: TranslateService) {}
+  constructor(private noticeService: NoticeDataService, private translate: TranslateService) {
+  }
 
   ngOnInit() {
     this.translate
@@ -83,8 +84,8 @@ export class HeaderNoticeComponent implements OnInit {
       this.notifications[index].status = 1;
       this.countEvent.emit(
         this.notifications.filter((n) => !n.status).length +
-          this.messages.filter((m) => !m.status).length +
-          this.todos.filter((t) => !t.status).length
+        this.messages.filter((m) => !m.status).length +
+        this.todos.filter((t) => !t.status).length,
       );
     }
     if (type === 'message') {
@@ -92,8 +93,8 @@ export class HeaderNoticeComponent implements OnInit {
       this.messages[index].status = 1;
       this.countEvent.emit(
         this.notifications.filter((n) => !n.status).length +
-          this.messages.filter((m) => !m.status).length +
-          this.todos.filter((t) => !t.status).length
+        this.messages.filter((m) => !m.status).length +
+        this.todos.filter((t) => !t.status).length,
       );
     }
     if (type === 'todo') {
@@ -101,8 +102,8 @@ export class HeaderNoticeComponent implements OnInit {
       this.todos[index].status = 1;
       this.countEvent.emit(
         this.notifications.filter((n) => !n.status).length +
-          this.messages.filter((m) => !m.status).length +
-          this.todos.filter((t) => !t.status).length
+        this.messages.filter((m) => !m.status).length +
+        this.todos.filter((t) => !t.status).length,
       );
     }
   }
