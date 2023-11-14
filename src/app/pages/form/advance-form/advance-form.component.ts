@@ -12,8 +12,8 @@ import { FormConfig } from 'src/app/@shared/components/admin-form';
 })
 export class AdvanceFormComponent implements OnInit {
   editableTip = EditableTip.btn;
-  nameEditing: boolean;
-  busy: Subscription;
+  nameEditing: boolean = false;
+  busy: Subscription = {} as Subscription;
 
   pager = {
     total: 0,
@@ -128,7 +128,8 @@ export class AdvanceFormComponent implements OnInit {
     },
   ];
 
-  constructor(private listDataService: ListDataService, private dialogService: DialogService) {}
+  constructor(private listDataService: ListDataService, private dialogService: DialogService) {
+  }
 
   ngOnInit() {
     this.getList();
@@ -162,46 +163,77 @@ export class AdvanceFormComponent implements OnInit {
     this.headerNewForm = true;
   }
 
-  getuuid() {
+  /**
+   * Generates a unique identifier by combining the current timestamp with a static string.
+   *
+   * @return {string} The generated unique identifier.
+   */
+  getUuid(): string {
     return new Date().getTime() + 'CNWO';
   }
 
+  /**
+   * Adds a new row quickly.
+   *
+   * @param {any} e - The data of the new row.
+   */
   quickRowAdded(e: any) {
     const newData = { ...e };
     this.listData.unshift(newData);
     this.headerNewForm = false;
   }
 
+  /**
+   * Cancels adding a new row quickly.
+   */
   quickRowCancel() {
     this.headerNewForm = false;
   }
 
+  /**
+   * Adds a new row after the specified row.
+   * @param index
+   */
   subRowAdded(index: number) {
     this.listData[index].$expandConfig.expand = false;
     const newData = { ...this.defaultRowData };
     this.listData.splice(index + 1, 0, newData);
   }
 
+  /** Cancels adding a new row after the specified row. */
   subRowCancel(index: number) {
     this.listData[index].$expandConfig.expand = false;
   }
 
+  /** Toggles the expand status of the specified row. */
   toggleExpand(rowItem: Item) {
     if (rowItem.$expandConfig) {
       rowItem.$expandConfig.expand = !rowItem.$expandConfig.expand;
     }
   }
 
+  /**
+   * Changes the current page.
+   * @param e
+   */
   onPageChange(e: number) {
     this.pager.pageIndex = e;
     this.getList();
   }
 
+  /**
+   * Changes the page size.
+   * @param e
+   */
   onSizeChange(e: number) {
     this.pager.pageSize = e;
     this.getList();
   }
 
+  /**
+   * Deletes the specified row.
+   * @param index
+   */
   deleteRow(index: number) {
     const results = this.dialogService.open({
       id: 'delete-dialog',
@@ -211,7 +243,8 @@ export class AdvanceFormComponent implements OnInit {
       showAnimate: false,
       content: 'Are you sure you want to delete it?',
       backdropCloseable: true,
-      onClose: () => {},
+      onClose: () => {
+      },
       buttons: [
         {
           cssClass: 'primary',
