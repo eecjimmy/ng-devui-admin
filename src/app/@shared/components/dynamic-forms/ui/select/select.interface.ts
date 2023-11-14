@@ -49,5 +49,5 @@ export interface SelectUI extends DFormUI {
   showAnimation?: boolean;
   validateRules?: DValidateRules;
   validatePopConfig?: DPopConfig;
-  loadMore: ({ instance, event }: any) => void;
+  loadMore?: ({ instance, event }: any) => void;
 }

@@ -73,7 +73,7 @@ export class DynamicFormComponent implements OnInit {
     { id: '4', name: 'Owner4' },
   ];
 
-  formItems: DFormData;
+  formItems: DFormData = {};
 
   ngOnInit() {
     this.formItems = {
@@ -222,7 +222,7 @@ export class DynamicFormComponent implements OnInit {
       of(this.formItems)
         .pipe(
           map((val) => 'success'),
-          delay(500)
+          delay(500),
         )
         .subscribe((res) => {
           if (res === 'success') {
