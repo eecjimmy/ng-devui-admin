@@ -1,5 +1,5 @@
-import { Component, HostListener, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { TranslateService, TranslationChangeEvent } from '@ngx-translate/core';
 import { DValidateRules } from 'ng-devui';
 import { FormLayout } from 'ng-devui';
@@ -53,7 +53,6 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private route: ActivatedRoute,
     private authService: AuthService,
     private translate: TranslateService,
     private i18n: I18nService,
@@ -70,32 +69,38 @@ export class LoginComponent implements OnInit {
         this.i18nValues = this.translate.instant('loginPage');
       });
 
-    this.translate.onLangChange.pipe(takeUntil(this.destroy$)).subscribe((e: TranslationChangeEvent) => {
-      this.i18nValues = this.translate.instant('loginPage');
-    });
+    this.translate
+      .onLangChange
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((_e: TranslationChangeEvent) => {
+        this.i18nValues = this.translate.instant('loginPage');
+      });
     this.personalizeService.setRefTheme(ThemeType.Default);
   }
 
   doLogin() {
-    this.authService.login(this.formData.username, this.formData.password).subscribe((res) => {
-        this.authService.setSession(res);
-        this.router.navigate(['/'])
-          .then(() => {
-          })
-          .catch((reason) => {
-            console.warn('navigate[\'/\'] failed', reason);
-          });
-      },
-      (error) => {
-        this.toastMessage = [
-          {
-            severity: 'error',
-            summary: this.i18nValues['noticeMessage']['summary'],
-            content: this.i18nValues['noticeMessage']['accountContent'],
-          },
-        ];
-      },
-    );
+    this.authService
+      .login(this.formData.username, this.formData.password)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((res) => {
+          this.authService.setSession(res);
+          this.router.navigate(['/'])
+            .then(() => {
+            })
+            .catch((reason) => {
+              console.warn('navigate[\'/\'] failed', reason);
+            });
+        },
+        (_e) => {
+          this.toastMessage = [
+            {
+              severity: 'error',
+              summary: this.i18nValues['noticeMessage']['summary'],
+              content: this.i18nValues['noticeMessage']['accountContent'],
+            },
+          ];
+        },
+      );
   }
 
   onLanguageClick(language: string) {

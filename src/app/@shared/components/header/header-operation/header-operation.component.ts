@@ -14,10 +14,24 @@ import { I18nService } from 'ng-devui/i18n';
 export class HeaderOperationComponent implements OnInit {
   languages = LANGUAGES;
   language: string = '';
-  loggedIn = false;
+  loggedIn = true;
   noticeCount: number = 0;
 
-  constructor(private route: Router, private authService: AuthService, private translate: TranslateService, private i18n: I18nService) {
+  /**
+   * Constructs a new instance of the class.
+   *
+   * @param route - The router service.
+   * @param authService - The authentication service.
+   * @param translate - The translation service.
+   * @param i18n - The internationalization service.
+   */
+  constructor(
+    private route: Router,
+    private authService: AuthService,
+    private translate: TranslateService,
+    private i18n: I18nService,
+  ) {
+    this.language = this.translate.currentLang;
   }
 
   get user(): User {
@@ -25,7 +39,9 @@ export class HeaderOperationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.language = this.translate.currentLang;
+    if (!this.authService.isUserLoggedIn()) {
+      this.loggedIn = false;
+    }
   }
 
   onSearch(event: any) {
