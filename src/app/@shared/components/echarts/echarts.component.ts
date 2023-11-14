@@ -27,14 +27,14 @@ const DEFAULT_LINE_COLOR = '#adb0b8';
   preserveWhitespaces: false,
 })
 export class EchartsComponent implements AfterViewInit, OnChanges, OnDestroy, OnInit {
-  echart: any;
-  @Input() options: any;
-  @Input() notMerge: boolean;
-  @Input() lazyUpdate: boolean;
+  chart: any;
+  @Input() options: any = {};
+  @Input() notMerge: boolean = false;
+  @Input() lazyUpdate: boolean = false;
   /**
    * echarts 主题
    */
-  @Input() theme: string | Object;
+  @Input() theme: string | Object = '';
   /**
    * 当echarts初始化完成后，会返回echarts实例
    */
@@ -43,15 +43,18 @@ export class EchartsComponent implements AfterViewInit, OnChanges, OnDestroy, On
   @Input() height = '400px';
   @Input() autoResize = true;
   @HostBinding('style.display') display = 'inline-block';
+
   @HostBinding('style.width') get hostWidth() {
     return this.width;
   }
+
   @HostBinding('style.height') get hostHeight() {
     return this.height;
   }
+
   resizeSub: any;
   textColor = DEFAULT_TEXT_COLOR;
-  linecolor: string;
+  lineColor: string = '';
   // 主题色色盘
   themeColorArray = [
     '#5E7CE0',
@@ -79,7 +82,9 @@ export class EchartsComponent implements AfterViewInit, OnChanges, OnDestroy, On
     '#D8C2FF',
     '#BECCFA',
   ];
-  constructor(private elementRef: ElementRef) {}
+
+  constructor(private elementRef: ElementRef) {
+  }
 
   get axisCommon() {
     return {
@@ -99,7 +104,7 @@ export class EchartsComponent implements AfterViewInit, OnChanges, OnDestroy, On
       splitLine: {
         lineStyle: {
           type: 'dashed',
-          color: this.linecolor,
+          color: this.lineColor,
         },
       },
       splitArea: {
@@ -182,15 +187,15 @@ export class EchartsComponent implements AfterViewInit, OnChanges, OnDestroy, On
       this.themeService.eventBus.add('themeChanged', this.themeChange);
     }
     this.initTheme();
-    this.echart = (<any>echarts).init(this.elementRef.nativeElement, this.theme);
+    this.chart = (<any> echarts).init(this.elementRef.nativeElement, this.theme);
     this.updateChartData(this.options);
-    this.chartReady.emit(this.echart);
+    this.chartReady.emit(this.chart);
     // 根据浏览器大小变化自动调整echarts
     if (this.autoResize) {
       this.resizeSub = fromEvent(window, 'resize')
         .pipe(debounceTime(100))
         .subscribe(() => {
-          this.echart.resize();
+          this.chart.resize();
         });
     }
   }
@@ -206,28 +211,28 @@ export class EchartsComponent implements AfterViewInit, OnChanges, OnDestroy, On
   themeChange = () => {
     if (this.themeService.currentTheme.data) {
       this.textColor = this.themeService.currentTheme.data['devui-text'] || DEFAULT_TEXT_COLOR;
-      this.linecolor = this.themeService.currentTheme.data['devui-line'] || DEFAULT_LINE_COLOR;
+      this.lineColor = this.themeService.currentTheme.data['devui-line'] || DEFAULT_LINE_COLOR;
     }
     this.theme = this.themeService.currentTheme.isDark ? this.darkTheme : this.lightTheme;
-    if (this.echart) {
-      this.echart.dispose();
-      this.echart = (<any>echarts).init(this.elementRef.nativeElement, this.theme);
+    if (this.chart) {
+      this.chart.dispose();
+      this.chart = (<any> echarts).init(this.elementRef.nativeElement, this.theme);
       this.updateChartData(this.options);
-      this.chartReady.emit(this.echart);
+      this.chartReady.emit(this.chart);
     }
   };
 
   ngOnChanges(changes: SimpleChanges) {
-    if (this.echart && changes['options']) {
+    if (this.chart && changes['options']) {
       const currentValue = changes['options'].currentValue;
       this.updateChartData(currentValue);
     }
   }
 
   ngOnDestroy(): void {
-    if (this.echart) {
-      this.echart.clear();
-      this.echart.dispose();
+    if (this.chart) {
+      this.chart.clear();
+      this.chart.dispose();
     }
 
     if (this.themeService && this.themeService.eventBus) {
@@ -241,7 +246,7 @@ export class EchartsComponent implements AfterViewInit, OnChanges, OnDestroy, On
 
   updateChartData(options: any) {
     if (options) {
-      this.echart.setOption(options, this.notMerge || false, this.lazyUpdate || false);
+      this.chart.setOption(options, this.notMerge || false, this.lazyUpdate || false);
     }
   }
 }
