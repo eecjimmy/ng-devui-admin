@@ -19,4 +19,4 @@ export interface DFormUI {
   [key: string]: any;
 }
 
-export type DWidgetType = 'select' | 'radio' | 'checkbox' | 'tagsInput' | 'textInput' | 'textarea' | 'toggle' | 'tagsInput';
+export type DWidgetType = 'select' | 'radio' | 'checkbox' | 'textInput' | 'textarea' | 'toggle' | 'tagsInput';

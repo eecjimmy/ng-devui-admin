@@ -10,7 +10,7 @@ In the page:
 
 ```html
 <da-dynamic-forms
-  [formItems]="formItems"
+  [formData]="formItems"
   (formSubmit)="submitForms($event)"
 >
 </da-dynamic-forms>

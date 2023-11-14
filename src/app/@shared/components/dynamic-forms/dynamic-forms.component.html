@@ -9,33 +9,33 @@
   (dSubmit)='submitForm($event)'
 >
   <ng-container *ngFor='let formItem of formItems'>
-    <d-form-item [dHasFeedback]='formItem.hasFeedback'>
-      <d-form-label [required]='formItem.required' [hasHelp]='formItem.hasHelp' [helpTips]='formItem.helpTips'>{{formItem.label}}</d-form-label>
-      <d-form-control [feedbackStatus]='formItem.feedbackStatus'>
+    <d-form-item [dHasFeedback]='formItem.hasFeedback||false'>
+      <d-form-label [required]='formItem.required||false' [hasHelp]='formItem.hasHelp||false' [helpTips]='formItem.helpTips||""'>{{formItem.label}}</d-form-label>
+      <d-form-control [feedbackStatus]='formItem.feedbackStatus||null'>
         <ng-template [ngTemplateOutlet]='widgetTemplate'></ng-template>
       </d-form-control>
     </d-form-item>
     <ng-template #widgetTemplate>
       <ng-container *ngIf="formItem.type === 'radio'">
-        <da-radio-widget [ui]='formItem.ui' [name]='formItem.key'></da-radio-widget>
+        <da-radio-widget [ui]='asRadioUI(formItem.ui)' [name]='formItem.key'></da-radio-widget>
       </ng-container>
       <ng-container *ngIf="formItem.type === 'textInput'">
-        <da-text-input-widget [ui]='formItem.ui' [name]='formItem.key'></da-text-input-widget>
+        <da-text-input-widget [ui]='asTextInputUI(formItem.ui)' [name]='formItem.key'></da-text-input-widget>
       </ng-container>
       <ng-container *ngIf="formItem.type === 'textarea'">
-        <da-textarea-widget [ui]='formItem.ui' [name]='formItem.key'></da-textarea-widget>
+        <da-textarea-widget [ui]='asTextAreaUI(formItem.ui)' [name]='formItem.key'></da-textarea-widget>
       </ng-container>
       <ng-container *ngIf="formItem.type === 'checkbox'">
-        <da-checkbox-widget [ui]='formItem.ui' [name]='formItem.key'></da-checkbox-widget>
+        <da-checkbox-widget [ui]='asCheckboxUI(formItem.ui)' [name]='formItem.key'></da-checkbox-widget>
       </ng-container>
       <ng-container *ngIf="formItem.type === 'select'">
-        <da-select-widget [ui]='formItem.ui' [name]='formItem.key'></da-select-widget>
+        <da-select-widget [ui]='asSelectUI(formItem.ui)' [name]='formItem.key'></da-select-widget>
       </ng-container>
       <ng-container *ngIf="formItem.type === 'toggle'">
-        <da-toggle-widget [ui]='formItem.ui' [name]='formItem.key'></da-toggle-widget>
+        <da-toggle-widget [ui]='asToggleUI(formItem.ui)' [name]='formItem.key'></da-toggle-widget>
       </ng-container>
       <ng-container *ngIf="formItem.type === 'tagsInput'">
-        <da-tags-input-widget [ui]='formItem.ui' [name]='formItem.key'></da-tags-input-widget>
+        <da-tags-input-widget [ui]='asTagsInputUI(formItem.ui)' [name]='formItem.key'></da-tags-input-widget>
       </ng-container>
     </ng-template>
   </ng-container>

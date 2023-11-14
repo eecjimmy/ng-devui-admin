@@ -10,7 +10,7 @@ import { DynamicFormsModule } from 'src/app/@shared/components/dynamic-forms/dyn
 
 ```html
 <da-dynamic-forms
-  [formItems]="formItems"
+  [formData]="formItems"
   (formSubmit)="submitForms($event)"
 >
 </da-dynamic-forms>

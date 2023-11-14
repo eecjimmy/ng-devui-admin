@@ -11,7 +11,7 @@ import {
   TextInputModule,
   CheckBoxModule,
   ButtonModule,
-  TagsInputModule,
+  TagsInputModule, LoadingModule,
 } from 'ng-devui';
 import { RadioWidget } from './ui/radio/radio.widget';
 import { TextAreaWidget } from './ui/textarea/textarea.widget';
@@ -45,6 +45,7 @@ import { ToggleWidget } from './ui/toggle/toggle.widget';
     CheckBoxModule,
     ToggleModule,
     TagsInputModule,
+    LoadingModule,
   ],
   exports: [
     DynamicFormsComponent,
