@@ -36,4 +36,7 @@ import { EditableListComponent } from './editable-list/editable-list.component';
     TooltipModule,
   ],
 })
-export class ListModule {}
+export class ListModule {
+  constructor() {
+  }
+}

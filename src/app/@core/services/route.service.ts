@@ -6,37 +6,43 @@ import {
 import { Injectable } from '@angular/core';
 
 /**
- * 路由重用策略
+ * Route reuse
  * @see https://juejin.cn/post/7132770068009582629
  */
 @Injectable({
   providedIn: 'root',
 })
 export class AppRouteReuseStrategy extends BaseRouteReuseStrategy {
-  /**
-   * 用于保存路由快照
-   **/
   public static routeSnapshots: Map<String, DetachedRouteHandle> = new Map();
 
   /**
-   * 允许所有路由重用
-   * 如果你有路由不想被重用，可以在这个方法中加业务逻辑判断
-   **/
+   * Determines whether the route should be detached.
+   *
+   * @param {ActivatedRouteSnapshot} route - The route to be evaluated.
+   * @return {boolean} Returns true if the route should be detached.
+   */
   shouldDetach(route: ActivatedRouteSnapshot): boolean {
     return true;
   }
 
   /**
-   * 以url为key保存路由，key也可以使用其他属性，能确保唯一即可
-   **/
+   * Stores the route and its corresponding detached route handle in the routeSnapshots map.
+   *
+   * @param {ActivatedRouteSnapshot} route - The route to store.
+   * @param {DetachedRouteHandle} handle - The detached route handle to store.
+   * @return {void} This function does not return any value.
+   */
   store(route: ActivatedRouteSnapshot, handle: DetachedRouteHandle): void {
     const key = this.getKeyByRoute(route);
     AppRouteReuseStrategy.routeSnapshots.set(key, handle);
   }
 
   /**
-   * 缓存中存在则允许还原路由
-   **/
+   * Determines whether the given route should be attached or not.
+   *
+   * @param {ActivatedRouteSnapshot} route - The route to be checked.
+   * @return {boolean} Returns true if the route should be attached, false otherwise.
+   */
   shouldAttach(route: ActivatedRouteSnapshot): boolean {
     if (route.component === null) {
       return false;
@@ -46,20 +52,33 @@ export class AppRouteReuseStrategy extends BaseRouteReuseStrategy {
   }
 
   /**
-   * 从缓存中获取快照，没有返回null
-   **/
+   * Retrieves the detached route handle for a given route.
+   *
+   * @param {ActivatedRouteSnapshot} route - The route snapshot to retrieve the detached route handle for.
+   * @return {DetachedRouteHandle | null} - The detached route handle for the given route, or null if not found.
+   */
   retrieve(route: ActivatedRouteSnapshot): DetachedRouteHandle | null {
     const key = this.getKeyByRoute(route);
     return AppRouteReuseStrategy.routeSnapshots.get(key) || null;
   }
 
   /**
-   * 进入路由触发，判断是否同一路由
-   **/
+   * Determines whether the given future and current ActivatedRouteSnapshots should reuse the route.
+   *
+   * @param {ActivatedRouteSnapshot} future - The future ActivatedRouteSnapshot.
+   * @param {ActivatedRouteSnapshot} curr - The current ActivatedRouteSnapshot.
+   * @return {boolean} Returns true if the route should be reused, false otherwise.
+   */
   shouldReuseRoute(future: ActivatedRouteSnapshot, curr: ActivatedRouteSnapshot): boolean {
     return this.getKeyByRoute(future) === this.getKeyByRoute(curr);
   }
 
+  /**
+   * Generates a key by extracting the route from the given ActivatedRouteSnapshot.
+   *
+   * @param {ActivatedRouteSnapshot} route - The route snapshot to extract the key from.
+   * @return {string} The generated key based on the route.
+   */
   getKeyByRoute(route: ActivatedRouteSnapshot): string {
     if (route.component === null) {
       return '';
@@ -77,6 +96,11 @@ export class AppRouteReuseStrategy extends BaseRouteReuseStrategy {
     return '/' + segments;
   }
 
+  /**
+   * Clears the route snapshots by a given key.
+   *
+   * @param {string} key - The key to identify the route snapshots to be cleared.
+   */
   public static clearByKey(key: string) {
     AppRouteReuseStrategy.routeSnapshots.delete(key);
   }

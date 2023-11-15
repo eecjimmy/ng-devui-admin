@@ -20,4 +20,5 @@ import { MessageNotificationComponent } from './user-settings/message-notificati
   ],
   imports: [SharedModule, UserRoutingModule, TagsInputModule, SplitterModule],
 })
-export class UserModule {}
+export class UserModule {
+}
