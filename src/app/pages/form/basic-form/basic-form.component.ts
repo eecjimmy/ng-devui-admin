@@ -49,14 +49,26 @@ export class BasicFormComponent {
     { id: '4', name: 'Executor4' },
   ];
 
+  /**
+   * Get value
+   * @param value
+   */
   getValue(value: object) {
     console.log(value);
   }
 
+  /**
+   * Check if the given value is the same as the password.
+   * @param range
+   */
   everyRange(range: any) {
     return range.every((_: any) => !!_);
   }
 
+  /**
+   * Check if the given value is the same as the password.
+   * @param value
+   */
   checkName(value: string) {
     let res = true;
     if (this.existprojectNames.indexOf(value) !== -1) {
@@ -65,6 +77,10 @@ export class BasicFormComponent {
     return of(res).pipe(delay(500));
   }
 
+  /**
+   * Check if the given value is the same as the password.
+   * @param value
+   */
   validateDate(value: any): Observable<any | null> {
     let message = null;
     for (const item of value) {

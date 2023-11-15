@@ -15,7 +15,7 @@ export class TreeListComponent implements OnInit {
   iconParentClose: string = '';
   basicDataSource: Array<Item> = [];
   checkableRelation: CheckableRelation = { downward: true, upward: true };
-  @ViewChild(DataTableComponent, { static: true }) datatable: DataTableComponent;
+  @ViewChild(DataTableComponent, { static: true }) datatable: DataTableComponent = {} as DataTableComponent;
 
   tableWidthConfig: TableWidthConfig[] = [
     {
