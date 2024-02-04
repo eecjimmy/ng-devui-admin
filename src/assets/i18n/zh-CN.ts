@@ -1,29 +1,224 @@
-import pages from './zh-CN/page';
-import form from './zh-CN/form';
-import abnormal from './zh-CN/abnormal';
-import personalize from './zh-CN/personalize';
-import list from './zh-CN/list';
-import dashboard from './zh-CN/dashboard';
-import login from './zh-CN/login';
-import register from './zh-CN/register';
-import sideSetting from './zh-CN/side-setting';
-import header from './zh-CN/header';
-import footer from './zh-CN/footer';
-import authGuard from './zh-CN/auth-guard';
-import notice from './zh-CN/notice';
-
 export default {
-  ...pages,
-  ...form,
-  ...list,
-  ...abnormal,
-  ...personalize,
-  ...dashboard,
-  ...login,
-  ...register,
-  ...sideSetting,
-  ...header,
-  ...footer,
-  ...authGuard,
-  ...notice,
+  'abnormal': {
+    '403': {
+      'description': '抱歉，您没有访问权限',
+    },
+    '404': {
+      'description': '抱歉，您访问的页面不存在',
+    },
+    '500': {
+      'description': '抱歉，服务端错误',
+    },
+    'backHome': '返回首页',
+  },
+  'authNotice': {
+    'summary': '提示',
+    'content': '请先进行登录!',
+  },
+  'dashboard': {
+    'breadcrumb': {
+      'home': '首页',
+      'dashboardPage': 'Dashboard',
+      'workSpace': '工作台',
+    },
+    'analysis': {
+      'visitingData': '周内访问流量',
+      'serviceWaterLine': '服务水位变化',
+      'userVisiting': '用户访问情况',
+      'requirementType': '需求类型趋势图',
+      'taskComplete': '任务完成情况',
+    },
+    'monitor': {
+      'taskComplete': '各类任务完成情况',
+      'occupancy': '占用率',
+      'userDistribute': '用户分布图',
+      'tendency': '趋势图',
+      'taskExec': '任务执行情况',
+    },
+    'workSpace': {
+      'name': '工作台',
+      'descriptionPrefix': '你好',
+      'descriptionSuffix': '欢迎来到你的工作台',
+      'title': '前端专家',
+      'role': 'DevUI-Committer',
+    },
+  },
+  'footer': {
+    'presented': 'DevUI Design 出品',
+  },
+  'form': {
+    'breadcrumb': {
+      'home': '首页',
+      'formPage': '表单页',
+      'basicForm': '基础表单',
+      'formLayout': '表单布局',
+      'advancedForm': '高级表单',
+      'dynamicForm': '动态表单',
+    },
+    'basicForm': {
+      'title': '基础表单',
+      'description': '表单页用于对用户信息进行收集或校验。基础表单具备数据收集、校验和提交功能。',
+    },
+    'formLayout': {
+      'title': '表单布局',
+      'description': '表单布局页展示了多种布局形式的表单，包含横向、垂直、弹框、多列等形式。',
+      'horizontalForm': '横向表单',
+      'verticalForm': '垂直表单',
+      'modalForm': '弹窗表单',
+      'multiForm': '多列表单',
+    },
+    'advancedForm': {
+      'title': '高级表单',
+      'description': '高级表单用于列表中编辑相关信息。',
+    },
+    'dynamicForm': {
+      'title': '动态表单',
+      'description': '根据业务对象模型的元数据（JSON）来创建动态表单，创建更加快速、且结构化方便维护，与正常表单具体使用差别请查看实际代码。',
+    },
+  },
+  'header': {
+    'userCenter': '个人中心',
+    'userSettings': '个人设置',
+    'logout': '登出',
+    'login': '登录',
+    'register': '注册',
+  },
+  'list': {
+    'breadcrumb': {
+      'home': '首页',
+      'formPage': '列表页',
+      'basicList': '基础列表',
+      'cardList': '卡片列表',
+      'editableList': '编辑列表',
+      'advanceList': '高级列表',
+      'treeList': '树状列表',
+    },
+    'basicList': {
+      'title': '基础列表',
+      'description': '支持调整列表尺寸，间距等。',
+    },
+    'cardList': {
+      'title': '卡片列表',
+      'description': '支持以卡片的样式展示相关信息，支持搜索功能。',
+    },
+    'editableList': {
+      'title': '编辑列表',
+      'description': '支持表格扩展和表格编辑功能。',
+    },
+    'advanceList': {
+      'title': '高级列表',
+      'description': '支持列表多选和批量删除功能，支持拖拽调整列宽，支持虚拟滚动和懒加载，支持过滤。',
+    },
+    'treeList': {
+      'title': '树状列表',
+      'description': '支持树形表格渲染。',
+    },
+  },
+  'loginPage': {
+    'loginWays': {
+      'account': '账号密码登录',
+      'email': '邮箱登录',
+    },
+    'autoLogin': '自动登录',
+    'forgetPassword': '忘记密码？',
+    'submit': '提交',
+    'userName': '用户名',
+    'password': '密码',
+    'email': '邮箱',
+    'noticeMessage': {
+      'summary': '用户名或密码错误',
+      'accountContent': '请输入正确的用户名密码，用户名：Admin，密码：DevUI.admin',
+      'emailContent': '请输入正确的用户名密码，用户名：admin@devui.com，密码：devuiadmin',
+    },
+    'other': '其它登录方式',
+    'register': '注册账户',
+    'callbackMessage': 'Github授权回调成功',
+  },
+  'notice': {
+    'clear': '清空',
+    'notificationTabName': '提醒',
+    'messageTabName': '未读消息',
+    'todoTabName': '待办事项',
+    'done': '你已经处理完了所有消息',
+    'more': '更多',
+  },
+  'page': {
+    'dashboard': {
+      'title': 'Dashboard',
+      'analysis': '分析页',
+      'monitor': '监控页',
+      'workspace': '工作台',
+    },
+    'form': {
+      'title': '表单页',
+      'basicForm': '基础表单',
+      'formLayout': '表单布局',
+      'advancedForm': '高级表单',
+      'dynamicForm': '动态表单',
+    },
+    'list': {
+      'title': '列表页',
+      'basicList': '基础列表',
+      'cardList': '卡片列表',
+      'editableList': '编辑列表',
+      'advanceList': '高级列表',
+      'treeList': '树状列表',
+    },
+    'abnormal': {
+      'title': '异常页',
+    },
+    'user': {
+      'title': '个人页',
+      'center': '个人中心',
+      'settings': '个人设置',
+    },
+  },
+  'personalize': {
+    'title': '个性化',
+    'subTitle': '选你所爱',
+    'themes': '主题',
+    'font': '字号',
+    'radius': '圆角',
+    'normal': '普通',
+    'medium': '中等',
+    'large': '大号',
+    'deep-theme': '深邃夜空主题',
+    'devui-dark-theme': '深色主题',
+    'infinity-theme': '无限主题',
+    'provence-theme': '紫罗兰主题',
+    'sweet-theme': '蜜糖主题',
+    'customize-theme': '自定义主题',
+  },
+  'registerPage': {
+    'coperation': 'DevUI Design 出品',
+    'title': '注册',
+    'submit': '注册',
+    'email': '邮箱',
+    'password': '密码',
+    'confirmPassword': '确认密码',
+    'other': '使用已有账户登录',
+    'resultMessage': {
+      'title': '注册成功',
+      'content': '你的账号注册成功，即将返回登录页面进行登录。',
+    },
+  },
+  'side-setting': {
+    'layout': '页面布局切换',
+    'fix-header': '固定Header',
+    'fix-sidebar': '固定侧边栏',
+    'content-area': '内容区域展示',
+    'hide-footer': '隐藏页脚',
+    'hide-top': '隐藏顶栏',
+    'hide-menu': '隐藏菜单',
+    'hide-menu-head': '隐藏菜单头',
+    'notice': '该配置栏只在该站点提供动态切换布局的效果预览，你可以手动拷贝后修改相关配置文件并清除localStorage缓存。',
+    'copy-config': '拷贝设置',
+    'copy-summary': '拷贝成功',
+    'copy-content': '请到src/app/@shared/layouts/da-layout/default-layout.config.ts中更改配置文件',
+    'sidebar-notice': {
+      'can-config': '选择是否固定侧边栏',
+      'cannot-config': '该配置仅在有侧边栏时可配置',
+    },
+    'helpContent': '此处仅展示了多种不同的布局切换，具体使用方法请参考文档',
+  },
 };
