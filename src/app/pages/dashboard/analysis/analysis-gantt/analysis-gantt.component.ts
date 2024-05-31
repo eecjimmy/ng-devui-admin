@@ -17,7 +17,7 @@ export class AnalysisGanttComponent implements OnInit {
   ganttEndDate: Date | undefined;
   unit = GanttScaleUnit.day;
   ganttScaleWidth: string | undefined;
-  ganttSacleConfigHandler: Subscription | null | undefined;
+  ganttScaleConfigHandler: Subscription | null | undefined;
   originOffsetLeft = 0;
   scrollElement: HTMLElement | undefined;
 
@@ -37,7 +37,7 @@ export class AnalysisGanttComponent implements OnInit {
       unit: this.unit,
     });
     this.ganttScaleWidth = this.ganttService.getDurationWidth(this.ganttStartDate, this.ganttEndDate) + 'px';
-    this.ganttSacleConfigHandler = this.ganttService.ganttScaleConfigChange.subscribe((config) => {
+    this.ganttScaleConfigHandler = this.ganttService.ganttScaleConfigChange.subscribe((config) => {
       if (config.startDate) {
         this.ganttStartDate = config.startDate;
       }
@@ -99,9 +99,9 @@ export class AnalysisGanttComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    if (this.ganttSacleConfigHandler) {
-      this.ganttSacleConfigHandler.unsubscribe();
-      this.ganttSacleConfigHandler = null;
+    if (this.ganttScaleConfigHandler) {
+      this.ganttScaleConfigHandler.unsubscribe();
+      this.ganttScaleConfigHandler = null;
     }
   }
 }
