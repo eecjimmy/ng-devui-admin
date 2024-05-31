@@ -19,20 +19,17 @@ export class PersonalizeComponent implements OnInit {
 
   configs: ThemeConfig[] = [];
 
-  themeColors = [
-    {
-      name: 'Light',
-      isDark: false,
-      icon: 'icon-code-editor-light',
-      colors: ['#343a40', '#24316c', '#673AB7', '#4f7dff', '#4caf78', '#5faa15', '#ff6a0d', '#f36b7f'],
-    },
-    {
-      name: 'Dark',
-      isDark: true,
-      icon: 'icon-code-editor-dark',
-      colors: ['#343a40', '#24316c', '#673AB7', '#4f7dff', '#4caf78', '#5faa15', '#ff6a0d', '#f36b7f'],
-    },
-  ];
+  themeColors = [{
+    name: 'Light',
+    isDark: false,
+    icon: 'icon-code-editor-light',
+    colors: ['#343a40', '#24316c', '#673AB7', '#4f7dff', '#4caf78', '#5faa15', '#ff6a0d', '#f36b7f'],
+  }, {
+    name: 'Dark',
+    isDark: true,
+    icon: 'icon-code-editor-dark',
+    colors: ['#343a40', '#24316c', '#673AB7', '#4f7dff', '#4caf78', '#5faa15', '#ff6a0d', '#f36b7f'],
+  }];
   currentValue = {
     themes: localStorage.getItem('theme'),
     font: localStorage.getItem('font'),

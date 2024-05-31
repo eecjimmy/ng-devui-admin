@@ -15,10 +15,15 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:browser-esbuild",
           "options": {
             "allowedCommonJsDependencies": [
               "color",
+              "color-convert",
+              "color-name",
+              "color-string",
+              "simple-swizzle",
+              "is-arrayish",
               "enquire.js"
             ],
             "baseHref": "/admin/",
@@ -37,12 +42,10 @@
               "node_modules/@devui-design/icons/icomoon/devui-icon.css"
             ],
             "scripts": [],
-            "vendorChunk": true,
             "extractLicenses": false,
             "buildOptimizer": true,
             "sourceMap": true,
-            "optimization": true,
-            "namedChunks": true
+            "optimization": true
           },
           "configurations": {
             "production": {
@@ -57,7 +60,6 @@
               "sourceMap": false,
               "namedChunks": false,
               "extractLicenses": false,
-              "vendorChunk": false,
               "buildOptimizer": true,
               "budgets": [
                 {
